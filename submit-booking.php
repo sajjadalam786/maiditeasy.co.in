@@ -6,7 +6,7 @@
   3. Delete any default code and paste this script:
 
      function doPost(e) {
-       var sheet = SpreadsheetApp.openById("1c1LYiTW0yvioMTV1nt2I_xE_GfN1a2PNAtwsqRt0PKE").getActiveSheet();
+       var sheet = SpreadsheetApp.openById("YOUR_SPREADSHEET_ID").getActiveSheet();
        var rowData = [];
        rowData.push(new Date()); // Timestamp
        rowData.push(e.parameter.name);
@@ -17,6 +17,10 @@
        rowData.push(e.parameter.urgency);
        rowData.push(e.parameter.referrer);
        rowData.push(e.parameter.message);
+       rowData.push(e.parameter.utm_campaign); // Campaign Name
+       rowData.push(e.parameter.utm_account);  // Campaign Account
+       rowData.push(e.parameter.utm_source);   // UTM Source
+       rowData.push(e.parameter.gclid);        // Google Click ID
        sheet.appendRow(rowData);
        return ContentService.createTextOutput("Success").setMimeType(ContentService.MimeType.TEXT);
      }
@@ -59,6 +63,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $referrer = isset($_POST["referrer"]) ? strip_tags(trim($_POST["referrer"])) : '';
     $message = isset($_POST["message"]) ? strip_tags(trim($_POST["message"])) : '';
     
+    // Campaign & Ads Tracking Parameters
+    $utm_campaign = isset($_POST["utm_campaign"]) ? strip_tags(trim($_POST["utm_campaign"])) : '';
+    $utm_account = isset($_POST["utm_account"]) ? strip_tags(trim($_POST["utm_account"])) : '';
+    $utm_source = isset($_POST["utm_source"]) ? strip_tags(trim($_POST["utm_source"])) : '';
+    $utm_medium = isset($_POST["utm_medium"]) ? strip_tags(trim($_POST["utm_medium"])) : '';
+    $gclid = isset($_POST["gclid"]) ? strip_tags(trim($_POST["gclid"])) : '';
+    
     if (empty($name) || empty($phone) || empty($email) || empty($service)) {
         header("Location: index.php");
         exit;
@@ -75,7 +86,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email_content .= "City: $city\n";
     $email_content .= "Service: $service\n";
     $email_content .= "Urgency: $urgency\n";
-    $email_content .= "How did they hear: $referrer\n\n";
+    $email_content .= "How did they hear: $referrer\n";
+    $email_content .= "Campaign Name: $utm_campaign\n";
+    $email_content .= "Campaign Account: $utm_account\n";
+    $email_content .= "UTM Source: $utm_source\n";
+    $email_content .= "GCLID: $gclid\n\n";
     $email_content .= "Message/Remarks:\n$message\n";
     
     $email_headers = "From: Maid It Easy Booking <no-reply@maiditeasy.in>";
@@ -96,7 +111,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 'service' => $service,
                 'urgency' => $urgency,
                 'referrer' => $referrer,
-                'message' => $message
+                'message' => $message,
+                'utm_campaign' => $utm_campaign,
+                'utm_account' => $utm_account,
+                'utm_source' => $utm_source,
+                'utm_medium' => $utm_medium,
+                'gclid' => $gclid
             ]
         ]);
         
@@ -127,7 +147,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             'service' => $service,
             'urgency' => $urgency,
             'referrer' => $referrer,
-            'message' => $message
+            'message' => $message,
+            'utm_campaign' => $utm_campaign,
+            'utm_account' => $utm_account,
+            'utm_source' => $utm_source,
+            'gclid' => $gclid
         ];
         
         foreach ($sheet_urls as $s_url) {

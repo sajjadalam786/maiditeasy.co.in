@@ -147,6 +147,53 @@
     <script src="<?php echo $root_prefix; ?>assets/js/main.js"></script>
     <script>
     $(document).ready(function(){
+        // --- 1. Google Ads & Campaign Tracking (UTM & Account Parameters) ---
+        function getUrlParams() {
+            var params = {};
+            var search = window.location.search.substring(1);
+            if (search) {
+                var pairs = search.split('&');
+                for (var i = 0; i < pairs.length; i++) {
+                    var pair = pairs[i].split('=');
+                    if (pair.length === 2) {
+                        params[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1].replace(/\+/g, ' '));
+                    }
+                }
+            }
+            return params;
+        }
+
+        var urlParams = getUrlParams();
+        var utmKeys = ['utm_campaign', 'utm_account', 'utm_source', 'utm_medium', 'utm_term', 'utm_content', 'gclid'];
+        
+        // Save URL params to sessionStorage & localStorage for cross-page persistence
+        utmKeys.forEach(function(key) {
+            if (urlParams[key]) {
+                sessionStorage.setItem(key, urlParams[key]);
+                localStorage.setItem(key, urlParams[key]);
+            }
+        });
+
+        // Function to inject campaign tracking hidden fields into any form
+        function injectCampaignFields($form) {
+            utmKeys.forEach(function(key) {
+                var val = sessionStorage.getItem(key) || localStorage.getItem(key) || '';
+                if (val) {
+                    if ($form.find('input[name="' + key + '"]').length === 0) {
+                        $form.append('<input type="hidden" name="' + key + '" value="' + val.replace(/"/g, '&quot;') + '">');
+                    } else {
+                        $form.find('input[name="' + key + '"]').val(val);
+                    }
+                }
+            });
+        }
+
+        // Inject on page load for all forms
+        $('form').each(function() {
+            injectCampaignFields($(this));
+        });
+
+        // --- 2. Modal Handlers ---
         $(".book-now-trigger").on("click", function(e){
             e.preventDefault();
             $("#bookingModal").css("display", "flex");
@@ -168,7 +215,6 @@
             }
         }
         
-        // Trigger immediately on first visit of session, otherwise 10s delay
         if (!sessionStorage.getItem("popupTriggered")) {
             sessionStorage.setItem("popupTriggered", "true");
             triggerLeadPopup();
@@ -179,13 +225,41 @@
         $(".close-lead-popup, #leadPopupModal").on("click", function(e){
             if (e.target === this || $(this).hasClass("close-lead-popup")) {
                 $("#leadPopupModal").css("display", "none");
-                // User closed without filling. Trigger again after 10s to prompt them.
                 setTimeout(triggerLeadPopup, 10000);
             }
         });
 
-        $(document).on("submit", ".lead-short-form", function(){
-            sessionStorage.setItem("popupFilled", "true");
+        // --- 3. Form Submission Anti-Duplicate Blocker & Loading State ---
+        $(document).on("submit", "form", function(e){
+            var $form = $(this);
+            
+            // Ensure campaign params are injected
+            injectCampaignFields($form);
+
+            if ($form.hasClass("lead-short-form")) {
+                sessionStorage.setItem("popupFilled", "true");
+            }
+
+            var $btn = $form.find('button[type="submit"], input[type="submit"]');
+            
+            // If already submitting, prevent duplicate click
+            if ($form.data("isSubmitting")) {
+                e.preventDefault();
+                return false;
+            }
+
+            // Mark as submitting, disable button, show spinner loader
+            $form.data("isSubmitting", true);
+            $btn.prop("disabled", true).addClass("disabled");
+            
+            var originalText = $btn.html() || $btn.val();
+            $btn.data("originalText", originalText);
+            
+            if ($btn.is("button")) {
+                $btn.html('<i class="fas fa-spinner fa-spin" style="margin-right: 6px;"></i> Submitting...');
+            } else {
+                $btn.val('Submitting...');
+            }
         });
     });
     </script>
