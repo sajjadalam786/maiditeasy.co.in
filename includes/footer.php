@@ -152,8 +152,8 @@
             const url = new URLSearchParams(window.location.search);
             var vals = url.getAll(name);
             var val = vals.length ? vals[vals.length - 1] : "";
-            if ((!val || val.indexOf('{') !== -1) && name === 'utm_campaign') {
-                val = url.get('_campname') || val;
+            if (!val && name === 'utm_campaign') {
+                val = url.get('_campname') || "";
             }
             return val || sessionStorage.getItem(name) || localStorage.getItem(name) || "";
         }
@@ -169,36 +169,29 @@
             }
         });
 
-        // Function to inject & populate campaign tracking hidden fields into any form
+        // Function to guarantee hidden input fields exist & are populated in every form
         function injectCampaignFields($form) {
             utmKeys.forEach(function(key) {
                 var val = getParam(key);
-                if (val) {
-                    if ($form.find('input[name="' + key + '"]').length === 0) {
-                        $form.append('<input type="hidden" name="' + key + '" id="' + key + '" value="' + val.replace(/"/g, '&quot;') + '">');
-                    } else {
-                        $form.find('input[name="' + key + '"]').val(val);
-                    }
+                var $input = $form.find('input[name="' + key + '"]');
+                if ($input.length === 0) {
+                    $form.append('<input type="hidden" name="' + key + '" value="' + val.replace(/"/g, '&quot;') + '">');
+                } else {
+                    $input.val(val);
                 }
             });
             
-            // Inject clean referrer (without long query string)
+            // Inject clean referrer (without query string)
             var ref = document.referrer ? document.referrer.split('?')[0] : (window.location.origin + window.location.pathname);
-            if ($form.find('input[name="referrer"]').length === 0) {
-                $form.append('<input type="hidden" name="referrer" id="referrer" value="' + ref.replace(/"/g, '&quot;') + '">');
+            var $refInput = $form.find('input[name="referrer"]');
+            if ($refInput.length === 0) {
+                $form.append('<input type="hidden" name="referrer" value="' + ref.replace(/"/g, '&quot;') + '">');
             } else {
-                $form.find('input[name="referrer"]').val(ref);
+                $refInput.val(ref);
             }
         }
 
-        var cleanRef = document.referrer ? document.referrer.split('?')[0] : (window.location.origin + window.location.pathname);
-        if (document.getElementById("utm_campaign")) document.getElementById("utm_campaign").value = getParam("utm_campaign");
-        if (document.getElementById("utm_account"))  document.getElementById("utm_account").value  = getParam("utm_account");
-        if (document.getElementById("utm_source"))   document.getElementById("utm_source").value   = getParam("utm_source");
-        if (document.getElementById("gclid"))        document.getElementById("gclid").value        = getParam("gclid");
-        if (document.getElementById("referrer"))     document.getElementById("referrer").value     = cleanRef;
-
-        // Inject on page load for all forms
+        // Run injection immediately for all forms
         $('form').each(function() {
             injectCampaignFields($(this));
         });
