@@ -150,7 +150,12 @@
         // --- 1. Google Ads & Campaign Tracking (UTM & Account Parameters) ---
         function getParam(name) {
             const url = new URLSearchParams(window.location.search);
-            return url.get(name) || sessionStorage.getItem(name) || localStorage.getItem(name) || "";
+            var vals = url.getAll(name);
+            var val = vals.length ? vals[vals.length - 1] : "";
+            if ((!val || val.indexOf('{') !== -1) && name === 'utm_campaign') {
+                val = url.get('_campname') || val;
+            }
+            return val || sessionStorage.getItem(name) || localStorage.getItem(name) || "";
         }
 
         var utmKeys = ['utm_campaign', 'utm_account', 'utm_source', 'utm_medium', 'utm_term', 'utm_content', 'gclid'];
