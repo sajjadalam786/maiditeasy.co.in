@@ -89,6 +89,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         curl_close($ch);
     }
     
+    // 3. Forward to Google Sheets Web Apps (Supports primary and secondary sheet)
+    $sheet_urls = array_filter([
+        get_env_var('GOOGLE_SHEET_WEBHOOK_URL'),
+        get_env_var('GOOGLE_SHEET_WEBHOOK_URL_2')
+    ]);
+
+    if (!empty($sheet_urls)) {
+        $post_fields = [
+            'name' => $name,
+            'phone' => $phone,
+            'email' => '',
+            'city' => $city,
+            'service' => 'Job Application: ' . $role,
+            'urgency' => $work_type,
+            'referrer' => 'Career Page',
+            'message' => "Age: $age, Gender: $gender, Exp: $experience, Salary: $salary, Location: $location. $message",
+            'utm_campaign' => isset($_POST["utm_campaign"]) ? strip_tags(trim($_POST["utm_campaign"])) : '',
+            'utm_account' => isset($_POST["utm_account"]) ? strip_tags(trim($_POST["utm_account"])) : '',
+            'utm_source' => isset($_POST["utm_source"]) ? strip_tags(trim($_POST["utm_source"])) : '',
+            'utm_medium' => isset($_POST["utm_medium"]) ? strip_tags(trim($_POST["utm_medium"])) : '',
+            'gclid' => isset($_POST["gclid"]) ? strip_tags(trim($_POST["gclid"])) : ''
+        ];
+        
+        foreach ($sheet_urls as $s_url) {
+            if (filter_var($s_url, FILTER_VALIDATE_URL)) {
+                $ch = curl_init($s_url);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post_fields));
+                curl_exec($ch);
+                curl_close($ch);
+            }
+        }
+    }
+    
     header("Location: pages/book-now-thank-you.php");
     exit;
 } else {
