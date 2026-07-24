@@ -96,6 +96,13 @@ if ($script_name == 'maid-service.php') {
             </label>
         </div>
         
+        <!-- Google Ads & Campaign Tracking Hidden Fields -->
+        <input type="hidden" name="utm_campaign" class="utm_campaign">
+        <input type="hidden" name="utm_account" class="utm_account">
+        <input type="hidden" name="utm_source" class="utm_source">
+        <input type="hidden" name="gclid" class="gclid">
+        <input type="hidden" name="referrer" class="referrer_field">
+
         <button type="submit" class="btn" style="width: 100%; height: 50px; background-image: linear-gradient(to right, #ffd10c 0%, #ff890c 51%, #ffd10c 100%); background-size: 200% auto; border: none; border-radius: 6px; color: #0e0035; font-weight: bold; font-size: 16px; transition: 0.5s;">SUBMIT BOOKING</button>
     </form>
 </div>

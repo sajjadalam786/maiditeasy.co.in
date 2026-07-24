@@ -148,45 +148,49 @@
     <script>
     $(document).ready(function(){
         // --- 1. Google Ads & Campaign Tracking (UTM & Account Parameters) ---
-        function getUrlParams() {
-            var params = {};
-            var search = window.location.search.substring(1);
-            if (search) {
-                var pairs = search.split('&');
-                for (var i = 0; i < pairs.length; i++) {
-                    var pair = pairs[i].split('=');
-                    if (pair.length === 2) {
-                        params[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1].replace(/\+/g, ' '));
-                    }
-                }
-            }
-            return params;
+        function getParam(name) {
+            const url = new URLSearchParams(window.location.search);
+            return url.get(name) || sessionStorage.getItem(name) || localStorage.getItem(name) || "";
         }
 
-        var urlParams = getUrlParams();
         var utmKeys = ['utm_campaign', 'utm_account', 'utm_source', 'utm_medium', 'utm_term', 'utm_content', 'gclid'];
         
         // Save URL params to sessionStorage & localStorage for cross-page persistence
         utmKeys.forEach(function(key) {
-            if (urlParams[key]) {
-                sessionStorage.setItem(key, urlParams[key]);
-                localStorage.setItem(key, urlParams[key]);
+            var val = getParam(key);
+            if (val) {
+                sessionStorage.setItem(key, val);
+                localStorage.setItem(key, val);
             }
         });
 
-        // Function to inject campaign tracking hidden fields into any form
+        // Function to inject & populate campaign tracking hidden fields into any form
         function injectCampaignFields($form) {
             utmKeys.forEach(function(key) {
-                var val = sessionStorage.getItem(key) || localStorage.getItem(key) || '';
+                var val = getParam(key);
                 if (val) {
                     if ($form.find('input[name="' + key + '"]').length === 0) {
-                        $form.append('<input type="hidden" name="' + key + '" value="' + val.replace(/"/g, '&quot;') + '">');
+                        $form.append('<input type="hidden" name="' + key + '" id="' + key + '" value="' + val.replace(/"/g, '&quot;') + '">');
                     } else {
                         $form.find('input[name="' + key + '"]').val(val);
                     }
                 }
             });
+            
+            var ref = document.referrer || window.location.href;
+            if ($form.find('input[name="referrer"]').length === 0) {
+                $form.append('<input type="hidden" name="referrer" id="referrer" value="' + ref.replace(/"/g, '&quot;') + '">');
+            } else {
+                $form.find('input[name="referrer"]').val(ref);
+            }
         }
+
+        // Auto-fill elements by ID if present
+        if (document.getElementById("utm_campaign")) document.getElementById("utm_campaign").value = getParam("utm_campaign");
+        if (document.getElementById("utm_account"))  document.getElementById("utm_account").value  = getParam("utm_account");
+        if (document.getElementById("utm_source"))   document.getElementById("utm_source").value   = getParam("utm_source");
+        if (document.getElementById("gclid"))        document.getElementById("gclid").value        = getParam("gclid");
+        if (document.getElementById("referrer"))     document.getElementById("referrer").value     = document.referrer;
 
         // Inject on page load for all forms
         $('form').each(function() {

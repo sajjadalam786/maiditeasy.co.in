@@ -92,6 +92,13 @@ $form_uniq = uniqid('sf_');
         </label>
     </div>
 
+    <!-- Google Ads & Campaign Tracking Hidden Fields -->
+    <input type="hidden" name="utm_campaign" class="utm_campaign">
+    <input type="hidden" name="utm_account" class="utm_account">
+    <input type="hidden" name="utm_source" class="utm_source">
+    <input type="hidden" name="gclid" class="gclid">
+    <input type="hidden" name="referrer" class="referrer_field">
+
     <button type="submit">Submit Details</button>
 
     <div style="text-align: center; margin: 6px 0; font-size: 11px; font-weight: bold; color: #888;">OR</div>
