@@ -112,9 +112,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         curl_close($ch);
     }
 
-    // 3. Forward to Google Sheets Web App
-    $sheet_url = get_env_var('GOOGLE_SHEET_WEBHOOK_URL');
-    if (!empty($sheet_url) && filter_var($sheet_url, FILTER_VALIDATE_URL)) {
+    // 3. Forward to Google Sheets Web Apps (Supports primary and secondary sheet)
+    $sheet_urls = array_filter([
+        get_env_var('GOOGLE_SHEET_WEBHOOK_URL'),
+        get_env_var('GOOGLE_SHEET_WEBHOOK_URL_2')
+    ]);
+
+    if (!empty($sheet_urls)) {
         $post_fields = [
             'name' => $name,
             'phone' => $phone,
@@ -126,13 +130,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             'message' => $message
         ];
         
-        $ch = curl_init($sheet_url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // Required for Google script redirect
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post_fields));
-        curl_exec($ch);
-        curl_close($ch);
+        foreach ($sheet_urls as $s_url) {
+            if (filter_var($s_url, FILTER_VALIDATE_URL)) {
+                $ch = curl_init($s_url);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // Required for Google script redirect
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post_fields));
+                curl_exec($ch);
+                curl_close($ch);
+            }
+        }
     }
     
     header("Location: pages/book-now-thank-you.php");
