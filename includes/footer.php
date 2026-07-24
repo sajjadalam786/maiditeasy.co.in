@@ -182,7 +182,8 @@
                 }
             });
             
-            var ref = document.referrer || window.location.href;
+            // Inject clean referrer (without long query string)
+            var ref = document.referrer ? document.referrer.split('?')[0] : (window.location.origin + window.location.pathname);
             if ($form.find('input[name="referrer"]').length === 0) {
                 $form.append('<input type="hidden" name="referrer" id="referrer" value="' + ref.replace(/"/g, '&quot;') + '">');
             } else {
@@ -190,12 +191,12 @@
             }
         }
 
-        // Auto-fill elements by ID if present
+        var cleanRef = document.referrer ? document.referrer.split('?')[0] : (window.location.origin + window.location.pathname);
         if (document.getElementById("utm_campaign")) document.getElementById("utm_campaign").value = getParam("utm_campaign");
         if (document.getElementById("utm_account"))  document.getElementById("utm_account").value  = getParam("utm_account");
         if (document.getElementById("utm_source"))   document.getElementById("utm_source").value   = getParam("utm_source");
         if (document.getElementById("gclid"))        document.getElementById("gclid").value        = getParam("gclid");
-        if (document.getElementById("referrer"))     document.getElementById("referrer").value     = document.referrer;
+        if (document.getElementById("referrer"))     document.getElementById("referrer").value     = cleanRef;
 
         // Inject on page load for all forms
         $('form').each(function() {

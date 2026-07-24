@@ -151,6 +151,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             'utm_campaign' => $utm_campaign,
             'utm_account' => $utm_account,
             'utm_source' => $utm_source,
+            'utm_medium' => $utm_medium,
             'gclid' => $gclid
         ];
         
