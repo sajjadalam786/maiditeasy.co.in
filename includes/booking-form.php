@@ -19,6 +19,16 @@ if ($script_name == 'maid-service.php') {
 }
 ?>
 <div style="background-color: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #eee; width: 100%;">
+    <!-- Form Type Toggle Buttons -->
+    <div class="form-type-toggle mb-3" style="display: flex; gap: 6px; background: #f0f2f5; padding: 5px; border-radius: 8px; border: 1px solid #e0e0e0;">
+        <button type="button" class="form-toggle-btn active" onclick="void(0);" style="flex: 1; padding: 9px 8px; border-radius: 6px; border: none; font-size: 12px; font-weight: 700; cursor: pointer; transition: 0.3s; background: #0e0035; color: #fff; text-align: center; line-height: 1.2;">
+            Book Services Only (No Jobs)
+        </button>
+        <a href="<?php echo $root_prefix; ?>pages/career.php" class="form-toggle-btn" style="flex: 1; padding: 9px 8px; border-radius: 6px; border: none; font-size: 12px; font-weight: 700; cursor: pointer; transition: 0.3s; background: transparent; color: #555; text-align: center; text-decoration: none; display: flex; align-items: center; justify-content: center; line-height: 1.2;">
+            Looking for Job
+        </a>
+    </div>
+
     <form action="<?php echo $root_prefix; ?>submit-booking.php" method="POST">
         <div style="background-color: #fff9e6; color: #856404; padding: 12px 15px; border-radius: 6px; margin-bottom: 20px; font-weight: bold; border: 1px solid #ffeeba; font-size: 14px; text-align: center; line-height: 1.4;">
             Instant Maids Requirement Not Available - Only Long Terms
@@ -79,7 +89,7 @@ if ($script_name == 'maid-service.php') {
         
         <div class="form-group mb-3">
             <label style="font-weight: 600; margin-bottom: 5px; font-size: 14px; display: block;">Comment or Remark</label>
-            <textarea name="message" class="form-control" rows="3" placeholder="Any specific requirements..." style="border-radius: 6px; font-size: 14px; border: 1px solid #ced4da; width: 100%; padding: 8px 12px;"></textarea>
+            <textarea name="message" class="form-control" rows="3" placeholder="What do you actually need? Maid, Nanny, cooks, Driver, etc,etc" style="border-radius: 6px; font-size: 14px; border: 1px solid #ced4da; width: 100%; padding: 8px 12px;"></textarea>
         </div>
         
         <div class="form-group mb-3" style="display: flex; align-items: flex-start; gap: 8px;">

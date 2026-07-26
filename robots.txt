@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /pages/career.php
+
+Sitemap: https://maiditeasy.co.in/sitemap.xml

@@ -56,6 +56,16 @@ $form_uniq = uniqid('sf_');
 }
 </style>
 <form class="lead-short-form lead-short-form-box" action="<?php echo $root_prefix; ?>submit-booking.php" method="POST">
+    <!-- Form Type Toggle Buttons -->
+    <div class="form-type-toggle mb-2" style="display: flex; gap: 4px; background: #f0f2f5; padding: 4px; border-radius: 6px; border: 1px solid #e0e0e0; margin-bottom: 12px;">
+        <button type="button" class="form-toggle-btn active" onclick="void(0);" style="flex: 1; padding: 6px 4px; border-radius: 4px; border: none; font-size: 10px; font-weight: 700; cursor: pointer; transition: 0.3s; background: #0e0035; color: #fff; text-align: center; line-height: 1.2;">
+            Book Services Only (No Jobs)
+        </button>
+        <a href="<?php echo $root_prefix; ?>pages/career.php" class="form-toggle-btn" style="flex: 1; padding: 6px 4px; border-radius: 4px; border: none; font-size: 10px; font-weight: 700; cursor: pointer; transition: 0.3s; background: transparent; color: #555; text-align: center; text-decoration: none; display: flex; align-items: center; justify-content: center; line-height: 1.2;">
+            Looking for Job
+        </a>
+    </div>
+
     <div class="sf-field">
         <label>Full Name *</label>
         <input type="text" name="name" required placeholder="Enter your name">
@@ -83,6 +93,10 @@ $form_uniq = uniqid('sf_');
             <option value="Elderly Care">Elderly Care</option>
             <option value="Watchman/Security Guard">Watchman/ Security Guard</option>
         </select>
+    </div>
+    <div class="sf-field">
+        <label>Comment or Remark</label>
+        <textarea name="message" rows="2" placeholder="What do you actually need? Maid, Nanny, cooks, Driver, etc,etc" style="width: 100%; padding: 6px 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 12px; outline: none; background: #fff;"></textarea>
     </div>
     
     <div style="display: flex; align-items: flex-start; gap: 6px; margin-bottom: 8px; margin-top: 4px;">

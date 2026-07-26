@@ -54,6 +54,11 @@ $current_page = basename($_SERVER['PHP_SELF']);
       <meta http-equiv="x-ua-compatible" content="ie=edge" />
       <title><?php echo htmlspecialchars($page_title); ?></title>
       <meta name="description" content="<?php echo htmlspecialchars($page_description); ?>" />
+      <?php if (isset($meta_robots)): ?>
+      <meta name="robots" content="<?php echo htmlspecialchars($meta_robots); ?>" />
+      <?php else: ?>
+      <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+      <?php endif; ?>
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
       <link class="canonical-link" rel="canonical" href="<?php echo htmlspecialchars($canonical_url); ?>" />
 
