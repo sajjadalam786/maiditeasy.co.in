@@ -213,22 +213,31 @@
         });
         
         function triggerLeadPopup() {
+            // Pause auto popup modal on career.php
+            if (window.location.href.indexOf('career.php') !== -1) {
+                return;
+            }
             if (!sessionStorage.getItem("popupFilled")) {
                 $("#leadPopupModal").css("display", "flex");
             }
         }
         
-        if (!sessionStorage.getItem("popupTriggered")) {
-            sessionStorage.setItem("popupTriggered", "true");
-            triggerLeadPopup();
-        } else {
-            setTimeout(triggerLeadPopup, 10000);
+        var isCareerPage = window.location.href.indexOf('career.php') !== -1;
+        if (!isCareerPage) {
+            if (!sessionStorage.getItem("popupTriggered")) {
+                sessionStorage.setItem("popupTriggered", "true");
+                triggerLeadPopup();
+            } else {
+                setTimeout(triggerLeadPopup, 10000);
+            }
         }
 
         $(".close-lead-popup, #leadPopupModal").on("click", function(e){
             if (e.target === this || $(this).hasClass("close-lead-popup")) {
                 $("#leadPopupModal").css("display", "none");
-                setTimeout(triggerLeadPopup, 10000);
+                if (!isCareerPage) {
+                    setTimeout(triggerLeadPopup, 10000);
+                }
             }
         });
 
