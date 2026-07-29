@@ -17,6 +17,7 @@ if (!isset($canonical_url)) {
     $canonical_url = "https://maiditeasy.co.in" . $_SERVER['REQUEST_URI'];
 }
 $current_page = basename($_SERVER['PHP_SELF']);
+require_once __DIR__ . '/contacts_config.php';
 ?>
 <!DOCTYPE html>
 <html class="no-js" lang="en">
@@ -81,7 +82,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
             "image": "https://maiditeasy.co.in/assets/img/logo/logo-blue.png",
             "logo": "https://maiditeasy.co.in/assets/img/logo/logo-blue.png",
             "url": "https://maiditeasy.co.in/",
-            "telephone": "+91 9866769832",
+            "telephone": "<?php echo $SITE_PHONE_DISPLAY; ?>",
             "priceRange": "₹₹",
             "address": {
               "@type": "PostalAddress",
@@ -374,10 +375,10 @@ $current_page = basename($_SERVER['PHP_SELF']);
       height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <!-- End Google Tag Manager (noscript) -->
       
-      <a href="https://api.whatsapp.com/send?phone=919866769832&text=Hello.%20I%20want%20to%20book%20a%20service!" class="float" target="_blank">
+      <a href="https://api.whatsapp.com/send?phone=<?php echo $SITE_WHATSAPP_RAW; ?>&text=Hello.%20I%20want%20to%20book%20a%20service!" class="float" target="_blank">
         <i class="fab fa-whatsapp"></i>
       </a>
-      <a href="tel:9866769832" style="position:fixed;width:60px;height:60px;bottom:50px;right:10px;background-color:#007bff;color:#FFF;border-radius:50px;text-align:center;font-size:28px;box-shadow:2px 2px 3px #999;z-index:100;display:flex;align-items:center;justify-content:center;text-decoration:none;" aria-label="Call Us"><img src="<?php echo $root_prefix; ?>assets/img/call.png" width="30" height="30" style="width:30px;height:30px;filter:brightness(0) invert(1);" alt="Call Icon"></a>
+      <a href="tel:<?php echo $SITE_PHONE_RAW; ?>" style="position:fixed;width:60px;height:60px;bottom:50px;right:10px;background-color:#007bff;color:#FFF;border-radius:50px;text-align:center;font-size:28px;box-shadow:2px 2px 3px #999;z-index:100;display:flex;align-items:center;justify-content:center;text-decoration:none;" aria-label="Call Us"><img src="<?php echo $root_prefix; ?>assets/img/call.png" width="30" height="30" style="width:30px;height:30px;filter:brightness(0) invert(1);" alt="Call Icon"></a>
       
       <header>
       <div class="tp-header-area-three header-sticky">
@@ -398,7 +399,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                                       
                                       <li class="menu-item-has-children"><a href="<?php echo $root_prefix; ?>pages/blogs.php" class="<?php echo ($current_page == 'blogs.php') ? 'active' : ''; ?>">Blogs</a></li>
                                       <li><a href="<?php echo $root_prefix; ?>pages/contact.php" class="<?php echo ($current_page == 'contact.php') ? 'active' : ''; ?>">Contact Us</a></li>
-                                      <li class="menu-item-has-children" style="margin-left: 5px;"><a href="tel:9866769832" class="yellow-btn" style="color: #0e0035 !important; font-weight: bold; border-radius: 6px !important; padding: 8px 15px !important; font-size: 13px !important; display: inline-flex; align-items: center; gap: 5px; height: auto; line-height: 1.2;"><i class="fas fa-phone-alt"></i> +91 98667 69832</a></li>
+                                      <li class="menu-item-has-children" style="margin-left: 5px;"><a href="tel:<?php echo $SITE_PHONE_RAW; ?>" class="yellow-btn" style="color: #0e0035 !important; font-weight: bold; border-radius: 6px !important; padding: 8px 15px !important; font-size: 13px !important; display: inline-flex; align-items: center; gap: 5px; height: auto; line-height: 1.2;"><i class="fas fa-phone-alt"></i> <?php echo $SITE_PHONE_DISPLAY; ?></a></li>
                                   </ul>
                               </nav>
                           </div>
@@ -409,7 +410,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                       <div class="col-xxl-4 col-xl-3 d-none d-xl-block">
                           <div class="tp-header-right-three">
                               <div class="tp-header-number-three">
-                                  <span><img src="<?php echo $root_prefix; ?>assets/img/call.png" width="20" height="20" alt="Call Icon">&nbsp;<a href="tel:9866769832">+91 98667 69832</a></span>
+                                  <span><img src="<?php echo $root_prefix; ?>assets/img/call.png" width="20" height="20" alt="Call Icon">&nbsp;<a href="tel:<?php echo $SITE_PHONE_RAW; ?>"><?php echo $SITE_PHONE_DISPLAY; ?></a></span>
                               </div>
                               <div class="tp-header-btn-three">
                                   <a href="javascript:void(0);" class="yellow-btn book-now-trigger"><i class="flaticon-enter"></i> BOOK NOW</a>
@@ -430,14 +431,14 @@ $current_page = basename($_SERVER['PHP_SELF']);
               <div class="contact-list mb-30">
                 <h4>Contact Info</h4>
                 <ul>
-                  <li><i class="flaticon-email"></i><a href="mailto:maiditeasy21@gmail.com">maiditeasy21@gmail.com</a></li>
-                  <li><i class="flaticon-phone-call"></i><a href="tel:9866769832">+91 98667 69832</a></li>
+                  <li><i class="flaticon-email"></i><a href="mailto:<?php echo $SITE_EMAIL; ?>"><?php echo $SITE_EMAIL; ?></a></li>
+                  <li><i class="flaticon-phone-call"></i><a href="tel:<?php echo $SITE_PHONE_RAW; ?>"><?php echo $SITE_PHONE_DISPLAY; ?></a></li>
                 </ul>
                 <div class="sidebar__menu--social">
                     <a href="https://www.facebook.com/Maid-It-Easy-102856618723539"><i class="fab fa-facebook-f"></i></a>
                     <a href="https://www.linkedin.com/company/maid-it-easy/about/"><i class="fab fa-linkedin"></i></a>
                     <a href="https://www.instagram.com/maidit_easy/"><i class="fab fa-instagram"></i></a>
-                    <a href="https://wa.me/919866769832"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://wa.me/<?php echo $SITE_WHATSAPP_RAW; ?>"><i class="fab fa-whatsapp"></i></a>
                 </div>
               </div>   
               <div class="tp-header-btn-three">

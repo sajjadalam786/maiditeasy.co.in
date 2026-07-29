@@ -16,13 +16,13 @@
                         <div class="tp-contact-cta border-r-2">
                             <div class="tp-contact-cta-inner justify-content-center">
                                 <div class="tp-contact-cta-inner-icon">
-                                    <a href="https://api.whatsapp.com/send?phone=919866769832&text=Hi,%20I%20want%20to%20know%20more%20about%20the%20maid%20it%20easy%20service" target="_blank" style="text-decoration: none; color: inherit; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;">
+                                    <a href="https://api.whatsapp.com/send?phone=<?php echo $SITE_WHATSAPP_RAW; ?>&text=Hi,%20I%20want%20to%20know%20more%20about%20the%20maid%20it%20easy%20service" target="_blank" style="text-decoration: none; color: inherit; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;">
                                         <i class="fab fa-whatsapp"></i>
                                     </a>
                                 </div>
                                 <div class="tp-contact-cta-inner-text">
                                     <span>Say Hello</span>
-                                     <h5><a href="https://api.whatsapp.com/send?phone=919866769832&text=Hi,%20I%20want%20to%20know%20more%20about%20the%20maid%20it%20easy%20service" target="_blank">+91 98667 69832</a></h5>
+                                     <h5><a href="https://api.whatsapp.com/send?phone=<?php echo $SITE_WHATSAPP_RAW; ?>&text=Hi,%20I%20want%20to%20know%20more%20about%20the%20maid%20it%20easy%20service" target="_blank"><?php echo $SITE_WHATSAPP_DISPLAY; ?></a></h5>
                                 </div>
                             </div>
                         </div>
@@ -31,13 +31,13 @@
                         <div class="tp-contact-cta">
                             <div class="tp-contact-cta-inner justify-content-end">
                                 <div class="tp-contact-cta-inner-icon">
-                                    <a href="mailto:maiditeasy21@gmail.com" style="text-decoration: none; color: inherit; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;">
+                                    <a href="mailto:<?php echo $SITE_EMAIL; ?>" style="text-decoration: none; color: inherit; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;">
                                         <i class="flaticon-email-1"></i>
                                     </a>
                                 </div>
                                 <div class="tp-contact-cta-inner-text">
                                     <span>Email Address</span>
-                                    <h5><a href="mailto:maiditeasy21@gmail.com">maiditeasy21@gmail.com</a></h5>
+                                    <h5><a href="mailto:<?php echo $SITE_EMAIL; ?>"><?php echo $SITE_EMAIL; ?></a></h5>
                                 </div>
                             </div>
                         </div>
@@ -62,7 +62,7 @@
                                     <a href="https://www.facebook.com/Maid-It-Easy-102856618723539"><i class="fab fa-facebook-f"></i></a>
                                     <a href="https://www.linkedin.com/company/maid-it-easy/about/"><i class="fab fa-linkedin"></i></a>
                                     <a href="https://www.instagram.com/maidit_easy/"><i class="fab fa-instagram"></i></a>
-                                    <a href="https://wa.me/919866769832"><i class="fab fa-whatsapp"></i></a>
+                                    <a href="https://wa.me/<?php echo $SITE_WHATSAPP_RAW; ?>"><i class="fab fa-whatsapp"></i></a>
                                 </div>
                             </div>
                         </div>

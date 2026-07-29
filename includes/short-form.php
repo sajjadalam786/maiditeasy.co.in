@@ -117,7 +117,7 @@ $form_uniq = uniqid('sf_');
 
     <div style="text-align: center; margin: 6px 0; font-size: 11px; font-weight: bold; color: #888;">OR</div>
 
-    <a href="tel:9866769832" style="display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; background: #007bff; color: #fff; border-radius: 6px; font-size: 13px; font-weight: bold; text-decoration: none; height: 38px; transition: 0.3s;">
+    <a href="tel:<?php echo $SITE_PHONE_RAW; ?>" style="display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; background: #007bff; color: #fff; border-radius: 6px; font-size: 13px; font-weight: bold; text-decoration: none; height: 38px; transition: 0.3s;">
         <i class="fas fa-phone-alt"></i> Call Us for better Understanding 24/7
     </a>
 </form>

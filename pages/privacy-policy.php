@@ -157,8 +157,8 @@ include '../includes/header.php';
                                 <ul class="policy-list" style="margin-bottom: 0;">
                                     <li><strong>Company:</strong> Maid It Easy</li>
                                     <li><strong>Address:</strong> 2ND FLOOR, PLOT NO 2, SECTOR 1 SY NO 64, Huda Techno Enclave, Madhapur, Hyderabad, Rangareddy, Telangana, 500081</li>
-                                    <li><strong>Email:</strong> <a href="mailto:maiditeasy21@gmail.com" style="color: #ff890c; text-decoration: underline;">maiditeasy21@gmail.com</a></li>
-                                    <li><strong>Phone:</strong> <a href="tel:9866769832" style="color: #ff890c; text-decoration: underline;">+91 98667 69832</a></li>
+                                    <li><strong>Email:</strong> <a href="mailto:<?php echo $SITE_EMAIL; ?>" style="color: #ff890c; text-decoration: underline;"><?php echo $SITE_EMAIL; ?></a></li>
+                                    <li><strong>Phone:</strong> <a href="tel:<?php echo $SITE_PHONE_RAW; ?>" style="color: #ff890c; text-decoration: underline;"><?php echo $SITE_PHONE_DISPLAY; ?></a></li>
                                 </ul>
                             </div>
 
