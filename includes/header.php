@@ -18,6 +18,11 @@ if (!isset($canonical_url)) {
 }
 $current_page = basename($_SERVER['PHP_SELF']);
 require_once __DIR__ . '/contacts_config.php';
+if (isset($SITE_STATUS) && $SITE_STATUS === 'suspended' && $current_page !== 'simple.php') {
+    http_response_code(503);
+    echo '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Website Service Suspended</title><style>body{font-family:system-ui,-apple-system,sans-serif;background:#0e0035;color:#fff;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;padding:20px;text-align:center;}.card{background:rgba(255,255,255,0.05);padding:40px;border-radius:16px;border:1px solid rgba(255,255,255,0.1);max-width:500px;box-shadow:0 20px 40px rgba(0,0,0,0.5);}h1{color:#ff890c;margin-bottom:15px;font-size:24px;}p{color:#cbd5e1;line-height:1.6;font-size:16px;}</style></head><body><div class="card"><h1>Notice: Service Suspended</h1><p>' . $SITE_SUSPENSION_MSG . '</p></div></body></html>';
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html class="no-js" lang="en">
