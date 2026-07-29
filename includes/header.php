@@ -374,7 +374,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
       height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <!-- End Google Tag Manager (noscript) -->
       
-      <a href="https://api.whatsapp.com/send?phone=919187496103&text=Hello.%20I%20want%20to%20book%20a%20service!" class="float" target="_blank">
+      <a href="https://api.whatsapp.com/send?phone=919866769832&text=Hello.%20I%20want%20to%20book%20a%20service!" class="float" target="_blank">
         <i class="fab fa-whatsapp"></i>
       </a>
       <a href="tel:9866769832" style="position:fixed;width:60px;height:60px;bottom:50px;right:10px;background-color:#007bff;color:#FFF;border-radius:50px;text-align:center;font-size:28px;box-shadow:2px 2px 3px #999;z-index:100;display:flex;align-items:center;justify-content:center;text-decoration:none;" aria-label="Call Us"><img src="<?php echo $root_prefix; ?>assets/img/call.png" width="30" height="30" style="width:30px;height:30px;filter:brightness(0) invert(1);" alt="Call Icon"></a>
@@ -437,7 +437,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                     <a href="https://www.facebook.com/Maid-It-Easy-102856618723539"><i class="fab fa-facebook-f"></i></a>
                     <a href="https://www.linkedin.com/company/maid-it-easy/about/"><i class="fab fa-linkedin"></i></a>
                     <a href="https://www.instagram.com/maidit_easy/"><i class="fab fa-instagram"></i></a>
-                    <a href="https://wa.me/919187496103"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://wa.me/919866769832"><i class="fab fa-whatsapp"></i></a>
                 </div>
               </div>   
               <div class="tp-header-btn-three">
