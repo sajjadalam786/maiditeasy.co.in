@@ -107,19 +107,15 @@ $form_uniq = uniqid('sf_');
     </div>
 
     <!-- Google reCAPTCHA v2 (Compact) -->
+    <?php 
+    $host = $_SERVER['HTTP_HOST'] ?? $_SERVER['SERVER_NAME'] ?? '';
+    $is_local_host = (strpos($host, 'localhost') !== false || strpos($host, '127.0.0.1') !== false || get_env_var('ENVIRONMENT') === 'development');
+    if (!$is_local_host): 
+    ?>
     <div style="margin-bottom: 8px; display: flex; justify-content: center;">
-        <?php 
-        $host = $_SERVER['HTTP_HOST'] ?? $_SERVER['SERVER_NAME'] ?? '';
-        $is_local_host = (strpos($host, 'localhost') !== false || strpos($host, '127.0.0.1') !== false || get_env_var('ENVIRONMENT') === 'development');
-        if ($is_local_host): 
-        ?>
-            <div style="font-size: 10px; color: #856404; background: #fff3cd; border: 1px solid #ffeeba; padding: 4px 8px; border-radius: 4px; text-align: center; width: 100%;">
-                <i class="fas fa-info-circle"></i> Local Dev: reCAPTCHA bypassed on localhost.
-            </div>
-        <?php else: ?>
-            <div class="g-recaptcha" data-sitekey="<?php echo get_env_var('RECAPTCHA_SITE_KEY', '6LdID3AtAAAAACVcD-KNE6eogW6YUpWDLakphEDZ'); ?>" data-size="compact"></div>
-        <?php endif; ?>
+        <div class="g-recaptcha" data-sitekey="<?php echo get_env_var('RECAPTCHA_SITE_KEY', '6LdID3AtAAAAACVcD-KNE6eogW6YUpWDLakphEDZ'); ?>" data-size="compact"></div>
     </div>
+    <?php endif; ?>
 
     <!-- Google Ads & Campaign Tracking Hidden Fields -->
     <input type="hidden" name="utm_campaign" class="utm_campaign">
