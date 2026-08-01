@@ -28,13 +28,7 @@ if (isset($SITE_STATUS) && $SITE_STATUS === 'suspended' && $current_page !== 'si
 <html class="no-js" lang="en">
   <head>
       <!-- Google reCAPTCHA v2 -->
-      <?php 
-      $host = $_SERVER['HTTP_HOST'] ?? $_SERVER['SERVER_NAME'] ?? '';
-      $is_local_host = (strpos($host, 'localhost') !== false || strpos($host, '127.0.0.1') !== false || get_env_var('ENVIRONMENT') === 'development');
-      if (!$is_local_host): 
-      ?>
-          <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-      <?php endif; ?>
+      <script src="https://www.google.com/recaptcha/api.js" async defer></script>
       <!-- Google Tag Manager -->
       <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
       new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
