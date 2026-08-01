@@ -106,6 +106,21 @@ if ($script_name == 'maid-service.php') {
             </label>
         </div>
         
+        <!-- Google reCAPTCHA v2 -->
+        <div class="form-group mb-3 d-flex justify-content-center">
+            <?php 
+            $host = $_SERVER['HTTP_HOST'] ?? $_SERVER['SERVER_NAME'] ?? '';
+            $is_local_host = (strpos($host, 'localhost') !== false || strpos($host, '127.0.0.1') !== false || get_env_var('ENVIRONMENT') === 'development');
+            if ($is_local_host): 
+            ?>
+                <div style="font-size: 11px; color: #856404; background: #fff3cd; border: 1px solid #ffeeba; padding: 6px 12px; border-radius: 4px; text-align: center; width: 100%;">
+                    <i class="fas fa-info-circle"></i> Local Testing Mode: reCAPTCHA bypassed for localhost.
+                </div>
+            <?php else: ?>
+                <div class="g-recaptcha" data-sitekey="<?php echo get_env_var('RECAPTCHA_SITE_KEY', '6LdID3AtAAAAACVcD-KNE6eogW6YUpWDLakphEDZ'); ?>"></div>
+            <?php endif; ?>
+        </div>
+
         <!-- Google Ads & Campaign Tracking Hidden Fields -->
         <input type="hidden" name="utm_campaign" class="utm_campaign">
         <input type="hidden" name="utm_account" class="utm_account">

@@ -75,6 +75,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
     
+    // Google reCAPTCHA v2 Verification (Enforced on production, bypassed for local testing)
+    $host = $_SERVER['HTTP_HOST'] ?? $_SERVER['SERVER_NAME'] ?? '';
+    $is_local_dev = (strpos($host, 'localhost') !== false || strpos($host, '127.0.0.1') !== false || get_env_var('ENVIRONMENT') === 'development');
+
+    if (!$is_local_dev) {
+        $recaptcha_response = isset($_POST['g-recaptcha-response']) ? trim($_POST['g-recaptcha-response']) : '';
+        $secret_key = get_env_var('RECAPTCHA_SECRET_KEY', '6LdID3AtAAAAABEpa-FFr_9iZKRhad5J2QEJ_T-F');
+        
+        if (empty($recaptcha_response)) {
+            echo "<script>alert('Please complete the reCAPTCHA verification checkbox before submitting.'); window.history.back();</script>";
+            exit;
+        }
+        
+        $verify_url = "https://www.google.com/recaptcha/api/siteverify";
+        $verify_data = [
+            'secret' => $secret_key,
+            'response' => $recaptcha_response,
+            'remoteip' => $_SERVER['REMOTE_ADDR'] ?? ''
+        ];
+        
+        $ch = curl_init($verify_url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($verify_data));
+        $verify_response = curl_exec($ch);
+        curl_close($ch);
+        
+        $verify_json = json_decode($verify_response, true);
+        if (!isset($verify_json['success']) || $verify_json['success'] !== true) {
+            echo "<script>alert('reCAPTCHA verification failed. Please try again.'); window.history.back();</script>";
+            exit;
+        }
+    }
+    
     // 1. Send Email Notification
     $recipient = get_env_var('RECIPIENT_EMAIL');
     $subject = "New Maid It Easy Booking Request from $name";

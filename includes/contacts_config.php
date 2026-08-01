@@ -48,10 +48,37 @@ function save_contacts_config($data) {
 
 $SITE_CONTACTS = load_contacts_config();
 
-$SITE_PHONE_RAW        = htmlspecialchars($SITE_CONTACTS['phone_raw']);
-$SITE_PHONE_DISPLAY    = htmlspecialchars($SITE_CONTACTS['phone_display']);
-$SITE_WHATSAPP_RAW     = htmlspecialchars($SITE_CONTACTS['whatsapp_raw']);
-$SITE_WHATSAPP_DISPLAY = htmlspecialchars($SITE_CONTACTS['whatsapp_display']);
-$SITE_EMAIL            = htmlspecialchars($SITE_CONTACTS['email']);
-$SITE_STATUS           = htmlspecialchars($SITE_CONTACTS['site_status']);
-$SITE_SUSPENSION_MSG   = htmlspecialchars($SITE_CONTACTS['suspension_message']);
+$SITE_PHONE_RAW        = htmlspecialchars($SITE_CONTACTS['phone_raw'] ?? '9866769832');
+$SITE_PHONE_DISPLAY    = htmlspecialchars($SITE_CONTACTS['phone_display'] ?? '+91 98667 69832');
+$SITE_WHATSAPP_RAW     = htmlspecialchars($SITE_CONTACTS['whatsapp_raw'] ?? '919866769832');
+$SITE_WHATSAPP_DISPLAY = htmlspecialchars($SITE_CONTACTS['whatsapp_display'] ?? '+91 98667 69832');
+$SITE_EMAIL            = htmlspecialchars($SITE_CONTACTS['email'] ?? 'maiditeasy21@gmail.com');
+$SITE_STATUS           = htmlspecialchars($SITE_CONTACTS['site_status'] ?? 'active');
+$SITE_SUSPENSION_MSG   = htmlspecialchars($SITE_CONTACTS['suspension_message'] ?? 'This website is temporarily suspended. Please contact technical administration.');
+
+if (!function_exists('get_env_var')) {
+    function get_env_var($key, $default = '') {
+        $env_files = [
+            dirname(__DIR__) . '/.env',
+            dirname(__DIR__) . '/config.env'
+        ];
+        foreach ($env_files as $env_file) {
+            if (file_exists($env_file)) {
+                $lines = file($env_file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+                foreach ($lines as $line) {
+                    if (strpos(trim($line), '#') === 0) continue;
+                    if (strpos($line, '=') !== false) {
+                        list($name, $value) = explode('=', $line, 2);
+                        if (trim($name) == $key) {
+                            return trim($value);
+                        }
+                    }
+                }
+            }
+        }
+        return $default;
+    }
+}
+
+$RECAPTCHA_SITE_KEY = get_env_var('RECAPTCHA_SITE_KEY', '6LdID3AtAAAAACVcD-KNE6eogW6YUpWDLakphEDZ');
+

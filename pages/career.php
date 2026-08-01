@@ -172,6 +172,21 @@ include '../includes/header.php';
                                     </label>
                                 </div>
 
+                                <!-- Google reCAPTCHA v2 -->
+                                <div class="form-group mb-3 d-flex justify-content-center">
+                                    <?php 
+                                    $host = $_SERVER['HTTP_HOST'] ?? $_SERVER['SERVER_NAME'] ?? '';
+                                    $is_local_host = (strpos($host, 'localhost') !== false || strpos($host, '127.0.0.1') !== false || get_env_var('ENVIRONMENT') === 'development');
+                                    if ($is_local_host): 
+                                    ?>
+                                        <div style="font-size: 11px; color: #856404; background: #fff3cd; border: 1px solid #ffeeba; padding: 6px 12px; border-radius: 4px; text-align: center; width: 100%;">
+                                            <i class="fas fa-info-circle"></i> Local Testing Mode: reCAPTCHA bypassed for localhost.
+                                        </div>
+                                    <?php else: ?>
+                                        <div class="g-recaptcha" data-sitekey="<?php echo get_env_var('RECAPTCHA_SITE_KEY', '6LdID3AtAAAAACVcD-KNE6eogW6YUpWDLakphEDZ'); ?>"></div>
+                                    <?php endif; ?>
+                                </div>
+
                                 <button type="submit" class="btn" style="width: 100%; height: 45px; background-image: linear-gradient(to right, #ffd10c 0%, #ff890c 51%, #ffd10c 100%); background-size: 200% auto; border: none; border-radius: 6px; color: #0e0035; font-weight: bold; font-size: 14px; transition: 0.5s;">REGISTER NOW</button>
                             </form>
                         </div>
