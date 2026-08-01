@@ -106,10 +106,8 @@ $form_uniq = uniqid('sf_');
         </label>
     </div>
 
-    <!-- Google reCAPTCHA v2 (Compact) -->
-    <div style="margin-bottom: 8px; display: flex; justify-content: center;">
-        <div class="g-recaptcha" data-sitekey="<?php echo get_env_var('RECAPTCHA_SITE_KEY', '6LdID3AtAAAAACVcD-KNE6eogW6YUpWDLakphEDZ'); ?>" data-size="compact"></div>
-    </div>
+    <!-- Google reCAPTCHA v3 Token Field -->
+    <input type="hidden" name="g-recaptcha-response" class="g-recaptcha-response">
 
     <!-- Google Ads & Campaign Tracking Hidden Fields -->
     <input type="hidden" name="utm_campaign" class="utm_campaign">

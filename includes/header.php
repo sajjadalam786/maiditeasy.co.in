@@ -27,8 +27,8 @@ if (isset($SITE_STATUS) && $SITE_STATUS === 'suspended' && $current_page !== 'si
 <!DOCTYPE html>
 <html class="no-js" lang="en">
   <head>
-      <!-- Google reCAPTCHA v2 -->
-      <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+      <!-- Google reCAPTCHA v3 -->
+      <script src="https://www.google.com/recaptcha/api.js?render=<?php echo get_env_var('RECAPTCHA_SITE_KEY', '6LdID3AtAAAAACVcD-KNE6eogW6YUpWDLakphEDZ'); ?>"></script>
       <!-- Google Tag Manager -->
       <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
       new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],

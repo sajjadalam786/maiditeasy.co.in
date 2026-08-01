@@ -196,6 +196,28 @@
             injectCampaignFields($(this));
         });
 
+        // --- 1b. Google reCAPTCHA v3 Automatic Token Generator ---
+        var recaptchaSiteKey = '<?php echo get_env_var('RECAPTCHA_SITE_KEY', '6LdID3AtAAAAACVcD-KNE6eogW6YUpWDLakphEDZ'); ?>';
+        function refreshReCaptchaToken() {
+            if (typeof grecaptcha !== 'undefined' && recaptchaSiteKey) {
+                grecaptcha.ready(function() {
+                    grecaptcha.execute(recaptchaSiteKey, {action: 'submit'}).then(function(token) {
+                        $('input[name="g-recaptcha-response"]').val(token);
+                    });
+                });
+            }
+        }
+        refreshReCaptchaToken();
+        setInterval(refreshReCaptchaToken, 90000);
+
+        $('form').on('submit', function() {
+            var $form = $(this);
+            if ($form.find('input[name="g-recaptcha-response"]').length === 0) {
+                $form.append('<input type="hidden" name="g-recaptcha-response" class="g-recaptcha-response">');
+            }
+            refreshReCaptchaToken();
+        });
+
         // --- 2. Modal Handlers ---
         $(".book-now-trigger").on("click", function(e){
             e.preventDefault();

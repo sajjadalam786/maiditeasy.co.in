@@ -106,10 +106,8 @@ if ($script_name == 'maid-service.php') {
             </label>
         </div>
         
-        <!-- Google reCAPTCHA v2 -->
-        <div class="form-group mb-3 d-flex justify-content-center">
-            <div class="g-recaptcha" data-sitekey="<?php echo get_env_var('RECAPTCHA_SITE_KEY', '6LdID3AtAAAAACVcD-KNE6eogW6YUpWDLakphEDZ'); ?>"></div>
-        </div>
+        <!-- Google reCAPTCHA v3 Token Field -->
+        <input type="hidden" name="g-recaptcha-response" class="g-recaptcha-response">
 
         <!-- Google Ads & Campaign Tracking Hidden Fields -->
         <input type="hidden" name="utm_campaign" class="utm_campaign">
