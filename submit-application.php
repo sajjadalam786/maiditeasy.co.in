@@ -35,9 +35,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
     
-    // Google reCAPTCHA v2 Verification (Enforced on production, bypassed for local testing)
+    // Google reCAPTCHA v2 Verification (Enforced on live production domain)
     $host = $_SERVER['HTTP_HOST'] ?? $_SERVER['SERVER_NAME'] ?? '';
-    $is_local_dev = (strpos($host, 'localhost') !== false || strpos($host, '127.0.0.1') !== false || get_env_var('ENVIRONMENT') === 'development');
+    $is_local_dev = (strpos($host, 'localhost') !== false || strpos($host, '127.0.0.1') !== false);
 
     if (!$is_local_dev) {
         $recaptcha_response = isset($_POST['g-recaptcha-response']) ? trim($_POST['g-recaptcha-response']) : '';
