@@ -246,20 +246,15 @@
         
         var isCareerPage = window.location.href.indexOf('career.php') !== -1;
         if (!isCareerPage) {
-            if (!sessionStorage.getItem("popupTriggered")) {
-                sessionStorage.setItem("popupTriggered", "true");
+            if (!sessionStorage.getItem("popupTriggeredOnce") && !sessionStorage.getItem("popupFilled")) {
+                sessionStorage.setItem("popupTriggeredOnce", "true");
                 triggerLeadPopup();
-            } else {
-                setTimeout(triggerLeadPopup, 10000);
             }
         }
 
         $(".close-lead-popup, #leadPopupModal").on("click", function(e){
             if (e.target === this || $(this).hasClass("close-lead-popup")) {
                 $("#leadPopupModal").css("display", "none");
-                if (!isCareerPage) {
-                    setTimeout(triggerLeadPopup, 10000);
-                }
             }
         });
 

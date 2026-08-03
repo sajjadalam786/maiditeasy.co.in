@@ -254,23 +254,23 @@ if (isset($SITE_STATUS) && $SITE_STATUS === 'suspended' && $current_page !== 'si
           padding: 10px 5px;
           text-align: center;
           border-radius: 8px;
-          color: white;
+          color: #0e0035 !important; /* Thick dark bold Black font */
           background-image: linear-gradient(to right, #ffd10c 0%, #ff890c 51%, #ffd10c 100%);
           background-size: 200% auto;
-          font-size: 16px; /* BIGGER TEXT */
-          font-weight: 600; /* BOLDER TEXT for better visibility */
+          font-size: 16px;
+          font-weight: 800 !important; /* Thick bold font weight */
           transition: 0.5s;
           display: flex;
           align-items: center;
           justify-content: center;
           line-height: 1.3;
           width: 100%;
-          height: 100%; /* Stretches the button vertically to fill the forced row height */
-          min-height: 70px; /* Taller baseline height to fit larger text cleanly */
+          height: 100%;
+          min-height: 70px;
       }
       .hero-btn-grid .btn:hover {
           background-position: right center;
-          color: #0e0035; 
+          color: #000000 !important; 
       }
       
       /* STRICT MOBILE RESPONSIVENESS - GUARANTEED TO FIT */
@@ -420,7 +420,7 @@ if (isset($SITE_STATUS) && $SITE_STATUS === 'suspended' && $current_page !== 'si
                                   <span><img src="<?php echo $root_prefix; ?>assets/img/call.png" width="20" height="20" alt="Call Icon">&nbsp;<a href="tel:<?php echo $SITE_PHONE_RAW; ?>"><?php echo $SITE_PHONE_DISPLAY; ?></a></span>
                               </div>
                               <div class="tp-header-btn-three">
-                                  <a href="javascript:void(0);" class="yellow-btn book-now-trigger"><i class="flaticon-enter"></i> BOOK NOW</a>
+                                  <a href="<?php echo $root_prefix; ?>pages/contact.php" class="yellow-btn"><i class="flaticon-enter"></i> BOOK NOW</a>
                               </div>
                           </div>
                       </div>
@@ -449,7 +449,7 @@ if (isset($SITE_STATUS) && $SITE_STATUS === 'suspended' && $current_page !== 'si
                 </div>
               </div>   
               <div class="tp-header-btn-three">
-                  <a href="javascript:void(0);" class="yellow-btn book-now-trigger"><i class="flaticon-enter"></i> BOOK NOW</a>
+                  <a href="<?php echo $root_prefix; ?>pages/contact.php" class="yellow-btn"><i class="flaticon-enter"></i> BOOK NOW</a>
               </div>
             </div>
           </div>
