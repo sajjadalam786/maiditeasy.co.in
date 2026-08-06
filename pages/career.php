@@ -148,8 +148,8 @@ include '../includes/header.php';
                                         <input type="text" name="city" class="form-control" placeholder="Enter your city" required style="height: 40px; border-radius: 6px; font-size: 13px; border: 1px solid #ced4da; width: 100%; padding: 8px 12px;">
                                     </div>
                                     <div class="col-md-6 form-group mb-3">
-                                        <label style="font-weight: 600; margin-bottom: 5px; font-size: 13px; display: block;">Preferred Work Area / Address *</label>
-                                        <input type="text" name="location" class="form-control" placeholder="e.g. Madhapur, Gachibowli" required style="height: 40px; border-radius: 6px; font-size: 13px; border: 1px solid #ced4da; width: 100%; padding: 8px 12px;">
+                                        <label style="font-weight: 600; margin-bottom: 5px; font-size: 13px; display: block;">Area *</label>
+                                        <input type="text" name="area" class="form-control" placeholder="Enter Area" required style="height: 40px; border-radius: 6px; font-size: 13px; border: 1px solid #ced4da; width: 100%; padding: 8px 12px;">
                                     </div>
                                 </div>
 

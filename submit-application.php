@@ -27,10 +27,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $experience = strip_tags(trim($_POST["experience"]));
     $salary = strip_tags(trim($_POST["salary"]));
     $work_type = strip_tags(trim($_POST["work_type"]));
-    $location = strip_tags(trim($_POST["location"]));
+    $location = isset($_POST["location"]) ? strip_tags(trim($_POST["location"])) : '';
+    $area = isset($_POST["area"]) ? strip_tags(trim($_POST["area"])) : $location;
     $message = strip_tags(trim($_POST["message"]));
     
-    if (empty($name) || empty($phone) || empty($role) || empty($location)) {
+    if (empty($name) || empty($phone) || empty($role)) {
         header("Location: pages/career.php");
         exit;
     }
@@ -83,7 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email_content .= "Experience: $experience\n";
     $email_content .= "Expected Salary: $salary\n";
     $email_content .= "Work Type Preference: $work_type\n";
-    $email_content .= "Preferred Work Area/Address: $location\n\n";
+    $email_content .= "Area: $area\n\n";
     $email_content .= "Work History/Remarks:\n$message\n";
     
     $email_headers = "From: Maid It Easy Careers <no-reply@maiditeasy.in>";
@@ -100,13 +101,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 'phone' => $phone,
                 'alternate_phone' => $alternate_phone,
                 'city' => $city,
+                'area' => $area,
                 'age' => $age,
                 'gender' => $gender,
                 'role' => $role,
                 'experience' => $experience,
                 'salary' => $salary,
                 'work_type' => $work_type,
-                'location' => $location,
+                'location' => $area,
                 'message' => $message
             ]
         ]);
@@ -135,10 +137,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             'phone' => $phone,
             'email' => '',
             'city' => $city,
+            'area' => $area,
             'service' => 'Job Application: ' . $role,
             'urgency' => $work_type,
             'referrer' => 'Career Page',
-            'message' => "Age: $age, Gender: $gender, Exp: $experience, Salary: $salary, Location: $location. $message",
+            'message' => "Age: $age, Gender: $gender, Exp: $experience, Salary: $salary, Area: $area. $message",
             'utm_campaign' => isset($_POST["utm_campaign"]) ? strip_tags(trim($_POST["utm_campaign"])) : '',
             'utm_account' => isset($_POST["utm_account"]) ? strip_tags(trim($_POST["utm_account"])) : '',
             'utm_source' => isset($_POST["utm_source"]) ? strip_tags(trim($_POST["utm_source"])) : '',

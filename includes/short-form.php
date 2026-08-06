@@ -83,6 +83,10 @@ $form_uniq = uniqid('sf_');
         <input type="text" name="city" required placeholder="Enter your city">
     </div>
     <div class="sf-field">
+        <label>Area *</label>
+        <input type="text" name="area" required placeholder="Enter Area">
+    </div>
+    <div class="sf-field">
         <label>Service Required *</label>
         <select name="service" required>
             <option value="" disabled selected>Select a Service</option>

@@ -55,9 +55,15 @@ if ($script_name == 'maid-service.php') {
             <input type="email" name="email" class="form-control" placeholder="Enter your email" required style="height: 45px; border-radius: 6px; font-size: 14px; border: 1px solid #ced4da; width: 100%; padding: 8px 12px;">
         </div>
         
-        <div class="form-group mb-3">
-            <label style="font-weight: 600; margin-bottom: 5px; font-size: 14px; display: block;">City *</label>
-            <input type="text" name="city" class="form-control" placeholder="Enter your city" required style="height: 45px; border-radius: 6px; font-size: 14px; border: 1px solid #ced4da; width: 100%; padding: 8px 12px;">
+        <div class="row">
+            <div class="col-md-6 form-group mb-3">
+                <label style="font-weight: 600; margin-bottom: 5px; font-size: 14px; display: block;">City *</label>
+                <input type="text" name="city" class="form-control" placeholder="Enter your city" required style="height: 45px; border-radius: 6px; font-size: 14px; border: 1px solid #ced4da; width: 100%; padding: 8px 12px;">
+            </div>
+            <div class="col-md-6 form-group mb-3">
+                <label style="font-weight: 600; margin-bottom: 5px; font-size: 14px; display: block;">Area *</label>
+                <input type="text" name="area" class="form-control" placeholder="Enter Area" required style="height: 45px; border-radius: 6px; font-size: 14px; border: 1px solid #ced4da; width: 100%; padding: 8px 12px;">
+            </div>
         </div>
         
         <div class="form-group mb-3">
