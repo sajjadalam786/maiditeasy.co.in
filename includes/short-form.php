@@ -100,7 +100,7 @@ $form_uniq = uniqid('sf_');
     </div>
     <div class="sf-field">
         <label>Comment or Remark</label>
-        <textarea name="message" rows="2" placeholder="What do you Actually Need ? bartan, jhhado & pocha ?" style="width: 100%; padding: 6px 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 12px; outline: none; background: #fff;"></textarea>
+        <textarea name="message" rows="2" placeholder="Enter Comment" style="width: 100%; padding: 6px 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 12px; outline: none; background: #fff;"></textarea>
     </div>
     
     <div style="display: flex; align-items: flex-start; gap: 6px; margin-bottom: 8px; margin-top: 4px;">
