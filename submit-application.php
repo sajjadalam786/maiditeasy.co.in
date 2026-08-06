@@ -154,6 +154,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $ch = curl_init($s_url);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+                curl_setopt($ch, CURLOPT_POSTREDIR, CURL_REDIR_POST_ALL);
                 curl_setopt($ch, CURLOPT_POST, true);
                 curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post_fields));
                 curl_exec($ch);

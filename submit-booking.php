@@ -3,35 +3,44 @@
   GOOGLE SHEETS INTEGRATION GUIDE:
   1. Open your Google Sheet: https://docs.google.com/spreadsheets/d/1c1LYiTW0yvioMTV1nt2I_xE_GfN1a2PNAtwsqRt0PKE/edit
   2. Click Extensions > Apps Script.
-  3. Delete any default code and paste this script:
+  3. Replace any code with this bulletproof script:
 
      function doPost(e) {
-       var sheet = SpreadsheetApp.openById("YOUR_SPREADSHEET_ID").getActiveSheet();
+       var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+       var p = (e && e.parameter) ? e.parameter : {};
+       
+       if (e && e.postData && e.postData.contents) {
+         try {
+           var json = JSON.parse(e.postData.contents);
+           if (json.data) p = json.data;
+           else if (json.name) p = json;
+         } catch(err) {}
+       }
+       
        var rowData = [];
        rowData.push(new Date()); // Timestamp
-       rowData.push(e.parameter.name);
-       rowData.push(e.parameter.phone);
-       rowData.push(e.parameter.email);
-       rowData.push(e.parameter.city);
-       rowData.push(e.parameter.service);
-       rowData.push(e.parameter.urgency);
-       rowData.push(e.parameter.referrer);
-       rowData.push(e.parameter.message);
-       rowData.push(e.parameter.utm_campaign); // Campaign Name
-       rowData.push(e.parameter.utm_account);  // Campaign Account
-       rowData.push(e.parameter.utm_source);   // UTM Source
-       rowData.push(e.parameter.gclid);        // Google Click ID
+       rowData.push(p.name || "");
+       rowData.push(p.phone || "");
+       rowData.push(p.email || "");
+       rowData.push(p.city || "");
+       rowData.push(p.area || p.location || "");  // Area Field
+       rowData.push(p.service || "");
+       rowData.push(p.urgency || "");
+       rowData.push(p.referrer || "");
+       rowData.push(p.message || "");
+       rowData.push(p.utm_campaign || "");
+       rowData.push(p.utm_account || "");
+       rowData.push(p.utm_source || "");
+       rowData.push(p.gclid || "");
+       
        sheet.appendRow(rowData);
        return ContentService.createTextOutput("Success").setMimeType(ContentService.MimeType.TEXT);
      }
 
-  4. Click Deploy > New Deployment.
-  5. Select type "Web App". Set "Execute as" to "Me", and "Who has access" to "Anyone".
-  6. Deploy, copy the Web App URL, and paste it into GOOGLE_SHEET_WEBHOOK_URL in .env!
-  
-  * HOW TO BYPASS GOOGLE AUTH WARNING:
-    - Click the "Advanced" link in the bottom left of the Google popup.
-    - Click "Go to Untitled project (unsafe)" (or your script name) at the bottom.
+  4. IMPORTANT: In Google Sheet, insert a new column named "Area" right after "City".
+  5. Click Deploy > Manage Deployments > Edit (pencil icon).
+  6. Under Version, select "NEW VERSION" (CRITICAL: Google Sheet will NOT use new code until you select New Version!).
+  7. Click Deploy!
     - Click "Allow" on the next screen to authorize!
 */
 
@@ -182,10 +191,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             'email' => $email,
             'city' => $city,
             'area' => $area,
+            'location' => $area,
             'service' => $service,
             'urgency' => $urgency,
             'referrer' => $referrer,
-            'message' => $message,
+            'message' => ($area ? "Area: $area" . ($message ? " | " . $message : "") : $message),
             'utm_campaign' => $utm_campaign,
             'utm_account' => $utm_account,
             'utm_source' => $utm_source,
@@ -198,6 +208,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $ch = curl_init($s_url);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // Required for Google script redirect
+                curl_setopt($ch, CURLOPT_POSTREDIR, CURL_REDIR_POST_ALL);
                 curl_setopt($ch, CURLOPT_POST, true);
                 curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post_fields));
                 curl_exec($ch);
