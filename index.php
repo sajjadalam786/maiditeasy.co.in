@@ -8,9 +8,9 @@ include 'includes/header.php';
         <section class="tp-slider-area fix">
           <div class="tp-slider-active swiper-container common-dots">
             <div class="swiper-wrapper">
-              <div class="tp-single-slider tp-slider-height d-flex align-items-center swiper-slide" data-swiper-autoplay="5000">
+              <div class="tp-single-slider tp-slider-height d-flex align-items-center swiper-slide" data-background="assets/img/all-type-Maid-services.webp" data-swiper-autoplay="5000">
                 <div class="slider-img">
-                  <img src="assets/img/slider/services-banner.jpg" class="img-fluid" alt="Maid It Easy - Domestic Help Services" width="1920" height="600" fetchpriority="high" loading="eager"/>
+                  <img src="assets/img/all-type-Maid-services.webp" class="img-fluid" alt="Maid It Easy - Domestic Help Services" width="1920" height="600" fetchpriority="high" loading="eager"/>
                 </div>
                 <div class="container">
                   <div class="row">

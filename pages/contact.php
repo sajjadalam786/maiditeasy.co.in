@@ -5,7 +5,7 @@ $canonical_url = "https://maiditeasy.in/pages/contact.php";
 include '../includes/header.php';
 ?>
     <main>
-        <div class="tp-page-title-area pt-180 pb-185 position-relative fix" data-background="../assets/img/slider/contact-banner.jpg">
+        <div class="tp-page-title-area pt-180 pb-185 position-relative fix" data-background="../assets/img/all-type-Maid-services.webp">
             <div class="tp-custom-container">
                 <div class="row">
                     <div class="col-12">

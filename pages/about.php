@@ -6,7 +6,7 @@ include '../includes/header.php';
 ?>
     <main>
         <!-- Banner Image Section -->
-        <div class="tp-page-title-area pt-180 pb-185 position-relative fix" data-background="../assets/img/slider/services-banner.jpg" role="img" aria-label="About us page banner">
+        <div class="tp-page-title-area pt-180 pb-185 position-relative fix" data-background="../assets/img/all-type-Maid-services.webp" role="img" aria-label="About us page banner">
             <div class="tp-custom-container">
                 <div class="row">
                     <div class="col-12">

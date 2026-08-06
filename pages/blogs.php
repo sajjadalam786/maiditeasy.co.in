@@ -76,7 +76,7 @@ include '../includes/header.php';
 ?>
     <main>
         <!-- Banner Image Section with Alt text placeholder -->
-        <div class="tp-page-title-area pt-180 pb-185 position-relative fix" data-background="../assets/img/slider/blogs-banner.jpg" role="img" aria-label="Banner image placeholder for latest blogs and insights on domestic help">
+        <div class="tp-page-title-area pt-180 pb-185 position-relative fix" data-background="../assets/img/all-type-Maid-services.webp" role="img" aria-label="Banner image placeholder for latest blogs and insights on domestic help">
             <div class="tp-custom-container">
                 <div class="row">
                     <div class="col-12">
