@@ -95,7 +95,7 @@ if ($script_name == 'maid-service.php') {
         
         <div class="form-group mb-3">
             <label style="font-weight: 600; margin-bottom: 5px; font-size: 14px; display: block;">Comment or Remark</label>
-            <textarea name="message" class="form-control" rows="3" placeholder="Enter Comment" style="border-radius: 6px; font-size: 14px; border: 1px solid #ced4da; width: 100%; padding: 8px 12px;"></textarea>
+            <textarea name="message" class="form-control" rows="3" placeholder="Need a maid for babysitting, cooking, cleaning, or elderly care?" style="border-radius: 6px; font-size: 14px; border: 1px solid #ced4da; width: 100%; padding: 8px 12px;"></textarea>
         </div>
         
         <div class="form-group mb-3" style="display: flex; align-items: flex-start; gap: 8px;">
