@@ -53,7 +53,7 @@ if (isset($SITE_STATUS) && $SITE_STATUS === 'suspended' && $current_page !== 'si
               c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
               t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
               y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-          })(window, document, "clarity", "script", "wzpg6bhgfq");
+          })(window, document, "clarity", "script", "xjrkcrbmrw");
       </script>
       <!-- End Microsoft Clarity -->
 
@@ -406,7 +406,6 @@ if (isset($SITE_STATUS) && $SITE_STATUS === 'suspended' && $current_page !== 'si
                                       
                                       <li class="menu-item-has-children"><a href="<?php echo $root_prefix; ?>pages/blogs.php" class="<?php echo ($current_page == 'blogs.php') ? 'active' : ''; ?>">Blogs</a></li>
                                       <li><a href="<?php echo $root_prefix; ?>pages/contact.php" class="<?php echo ($current_page == 'contact.php') ? 'active' : ''; ?>">Contact Us</a></li>
-                                      <li class="menu-item-has-children" style="margin-left: 5px;"><a href="tel:<?php echo $SITE_PHONE_RAW; ?>" class="yellow-btn" style="color: #0e0035 !important; font-weight: bold; border-radius: 6px !important; padding: 8px 15px !important; font-size: 13px !important; display: inline-flex; align-items: center; gap: 5px; height: auto; line-height: 1.2;"><i class="fas fa-phone-alt"></i> <?php echo $SITE_PHONE_DISPLAY; ?></a></li>
                                   </ul>
                               </nav>
                           </div>

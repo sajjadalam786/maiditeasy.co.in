@@ -276,7 +276,7 @@ include 'includes/header.php';
         
         <section class="tp-choose-area-three position-relative mt-120 pb-50">
             <div class="tp-choose-area-three-img">
-                <img src="assets/img/about/about-img-5.png" alt="Why Choose Maid It Easy Services" width="600" height="500" loading="lazy" class="img-fluid" style="max-width: 100%; height: auto; object-fit: contain;">
+                <img src="assets/img/about/about-img-2.png" alt="Why Choose Maid It Easy Services" width="600" height="500" loading="lazy" class="img-fluid" style="max-width: 100%; height: auto; object-fit: contain;">
             </div>
             <div class="container">
                 <div class="row align-items-end justify-content-center">
