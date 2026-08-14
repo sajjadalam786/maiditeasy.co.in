@@ -42,7 +42,7 @@ include '../includes/header.php';
                 <div class="mobile-image-slider">
                     <div class="slider-wrapper">
                         <div class="slider-item">
-                            <img src="../assets/img/service/Maid-01.jpg" alt="Domestic Cleaning Helper" width="300" height="180" loading="lazy">
+                            <img src="../assets/img/service/maid-service-1.png" alt="Domestic Cleaning Helper" width="300" height="180" loading="lazy">
                         </div>
                         <div class="slider-item">
                             <img src="../assets/img/service/Cook-01.jpg" alt="Gourmet Kitchen Cook" width="300" height="180" loading="lazy">
