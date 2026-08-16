@@ -1,5 +1,9 @@
 <?php
-// Determine the current service to auto-select it in the dropdown
+// Ensure root prefix exists
+$root_prefix = isset($root_prefix) ? $root_prefix : '';
+$form_uniq = uniqid('bf_');
+
+// Determine current service to auto-select
 $current_service = '';
 $script_name = basename($_SERVER['PHP_SELF']);
 if ($script_name == 'maid-service.php') {
@@ -18,57 +22,50 @@ if ($script_name == 'maid-service.php') {
     $current_service = 'All-in-One Service';
 }
 ?>
-<div style="background-color: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #eee; width: 100%;">
+<div class="maid-booking-form-wrapper" style="background-color: #fff; padding: 25px 22px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #eee; width: 100%; box-sizing: border-box;">
     <!-- Form Type Toggle Buttons -->
     <div class="form-type-toggle mb-3" style="display: flex; gap: 6px; background: #f0f2f5; padding: 5px; border-radius: 8px; border: 1px solid #e0e0e0;">
-        <button type="button" class="form-toggle-btn active" onclick="void(0);" style="flex: 1; padding: 9px 8px; border-radius: 6px; border: none; font-size: 12px; font-weight: 700; cursor: pointer; transition: 0.3s; background: #0e0035; color: #fff; text-align: center; line-height: 1.2;">
+        <button type="button" class="form-toggle-btn active" onclick="void(0);" style="flex: 1; padding: 8px 6px; border-radius: 6px; border: none; font-size: 12px; font-weight: 700; cursor: pointer; transition: 0.3s; background: #0e0035; color: #fff; text-align: center; line-height: 1.2;">
             Book Services Only (No Jobs)
         </button>
-        <a href="<?php echo $root_prefix; ?>pages/career.php" class="form-toggle-btn" style="flex: 1; padding: 9px 8px; border-radius: 6px; border: none; font-size: 12px; font-weight: 700; cursor: pointer; transition: 0.3s; background: transparent; color: #555; text-align: center; text-decoration: none; display: flex; align-items: center; justify-content: center; line-height: 1.2;">
+        <a href="<?php echo $root_prefix; ?>pages/career.php" class="form-toggle-btn" style="flex: 1; padding: 8px 6px; border-radius: 6px; border: none; font-size: 12px; font-weight: 700; cursor: pointer; transition: 0.3s; background: transparent; color: #555; text-align: center; text-decoration: none; display: flex; align-items: center; justify-content: center; line-height: 1.2;">
             Looking for Job
         </a>
     </div>
 
-    <form action="<?php echo $root_prefix; ?>submit-booking.php" method="POST">
-        <div style="background-color: #fff9e6; color: #856404; padding: 12px 15px; border-radius: 6px; margin-bottom: 20px; font-weight: bold; border: 1px solid #ffeeba; font-size: 14px; text-align: center; line-height: 1.4;">
+    <form action="<?php echo $root_prefix; ?>submit-booking.php" method="POST" class="maid-unified-booking-form">
+        <div style="background-color: #fff9e6; color: #856404; padding: 10px 12px; border-radius: 6px; margin-bottom: 18px; font-weight: bold; border: 1px solid #ffeeba; font-size: 13px; text-align: center; line-height: 1.4;">
             Instant Maids Requirement Not Available - Only Long Terms
         </div>
         
+        <!-- Full Name -->
         <div class="form-group mb-3">
-            <label style="font-weight: 600; margin-bottom: 5px; font-size: 14px; display: block;">Full Name *</label>
-            <input type="text" name="name" class="form-control" placeholder="Enter your full name" required style="height: 45px; border-radius: 6px; font-size: 14px; border: 1px solid #ced4da; width: 100%; padding: 8px 12px;">
+            <label style="font-weight: 600; margin-bottom: 5px; font-size: 13px; display: block; color: #222;">Full Name *</label>
+            <input type="text" name="name" class="form-control" placeholder="Enter your full name" required style="height: 42px; border-radius: 6px; font-size: 13px; border: 1px solid #ced4da; width: 100%; padding: 8px 12px; background: #fff;">
         </div>
         
-        <div class="row">
-            <div class="col-md-6 form-group mb-3">
-                <label style="font-weight: 600; margin-bottom: 5px; font-size: 14px; display: block;">Phone Number *</label>
-                <input type="tel" name="phone" class="form-control" placeholder="Enter phone number" required style="height: 45px; border-radius: 6px; font-size: 14px; border: 1px solid #ced4da; width: 100%; padding: 8px 12px;">
-            </div>
-            <div class="col-md-6 form-group mb-3">
-                <label style="font-weight: 600; margin-bottom: 5px; font-size: 14px; display: block;">Alternate Number *</label>
-                <input type="tel" name="alternate_phone" class="form-control" placeholder="Enter alternate number" required style="height: 45px; border-radius: 6px; font-size: 14px; border: 1px solid #ced4da; width: 100%; padding: 8px 12px;">
-            </div>
-        </div>
-        
+        <!-- Phone Number -->
         <div class="form-group mb-3">
-            <label style="font-weight: 600; margin-bottom: 5px; font-size: 14px; display: block;">Email Address *</label>
-            <input type="email" name="email" class="form-control" placeholder="Enter your email" required style="height: 45px; border-radius: 6px; font-size: 14px; border: 1px solid #ced4da; width: 100%; padding: 8px 12px;">
+            <label style="font-weight: 600; margin-bottom: 5px; font-size: 13px; display: block; color: #222;">Phone Number *</label>
+            <input type="tel" name="phone" class="form-control" placeholder="Enter phone number" required style="height: 42px; border-radius: 6px; font-size: 13px; border: 1px solid #ced4da; width: 100%; padding: 8px 12px; background: #fff;">
         </div>
         
-        <div class="row">
-            <div class="col-md-6 form-group mb-3">
-                <label style="font-weight: 600; margin-bottom: 5px; font-size: 14px; display: block;">City *</label>
-                <input type="text" name="city" class="form-control" placeholder="Enter your city" required style="height: 45px; border-radius: 6px; font-size: 14px; border: 1px solid #ced4da; width: 100%; padding: 8px 12px;">
+        <!-- City & Area -->
+        <div class="row g-2 mb-3">
+            <div class="col-6 form-group">
+                <label style="font-weight: 600; margin-bottom: 5px; font-size: 13px; display: block; color: #222;">City *</label>
+                <input type="text" name="city" class="form-control" placeholder="Enter your city" required style="height: 42px; border-radius: 6px; font-size: 13px; border: 1px solid #ced4da; width: 100%; padding: 8px 12px; background: #fff;">
             </div>
-            <div class="col-md-6 form-group mb-3">
-                <label style="font-weight: 600; margin-bottom: 5px; font-size: 14px; display: block;">Area *</label>
-                <input type="text" name="area" class="form-control" placeholder="Enter Area" required style="height: 45px; border-radius: 6px; font-size: 14px; border: 1px solid #ced4da; width: 100%; padding: 8px 12px;">
+            <div class="col-6 form-group">
+                <label style="font-weight: 600; margin-bottom: 5px; font-size: 13px; display: block; color: #222;">Area *</label>
+                <input type="text" name="area" class="form-control" placeholder="Enter Area" required style="height: 42px; border-radius: 6px; font-size: 13px; border: 1px solid #ced4da; width: 100%; padding: 8px 12px; background: #fff;">
             </div>
         </div>
         
+        <!-- Choose Interested Service -->
         <div class="form-group mb-3">
-            <label style="font-weight: 600; margin-bottom: 5px; font-size: 14px; display: block;">Choose Interested Service *</label>
-            <select name="service" class="form-control" required style="height: 45px; border-radius: 6px; font-size: 14px; border: 1px solid #ced4da; width: 100%; padding: 8px 12px; background-color: #fff;">
+            <label style="font-weight: 600; margin-bottom: 5px; font-size: 13px; display: block; color: #222;">Choose Interested Service *</label>
+            <select name="service" class="form-control" required style="height: 42px; border-radius: 6px; font-size: 13px; border: 1px solid #ced4da; width: 100%; padding: 8px 12px; background-color: #fff;">
                 <option value="">-- Select Service --</option>
                 <option value="Maid Service" <?php echo ($current_service == 'Maid Service') ? 'selected' : ''; ?>>Maid Service</option>
                 <option value="Cook Service" <?php echo ($current_service == 'Cook Service') ? 'selected' : ''; ?>>Cook Service</option>
@@ -79,35 +76,38 @@ if ($script_name == 'maid-service.php') {
                 <option value="All-in-One Service" <?php echo ($current_service == 'All-in-One Service') ? 'selected' : ''; ?>>All-in-One Domestic Help Service</option>
             </select>
         </div>
-        
+
+        <!-- Preferred Salary Range (New Field) -->
         <div class="form-group mb-3">
-            <label style="font-weight: 600; margin-bottom: 5px; font-size: 14px; display: block;">Urgency of your requirement *</label>
-            <select name="urgency" class="form-control" required style="height: 45px; border-radius: 6px; font-size: 14px; border: 1px solid #ced4da; width: 100%; padding: 8px 12px; background-color: #fff;">
-                <option value="Urgent">Urgent</option>
-                <option value="Not Urgent">Not Urgent</option>
+            <label style="font-weight: 600; margin-bottom: 5px; font-size: 13px; display: block; color: #222;">What is your preferred salary range? *</label>
+            <select name="salary_range" class="form-control" required style="height: 42px; border-radius: 6px; font-size: 13px; border: 1px solid #ced4da; width: 100%; padding: 8px 12px; background-color: #fff;">
+                <option value="" disabled selected>Select</option>
+                <option value="Rs. 9000 - 11000 (2 hours)">Rs. 9000 - 11000 (2 hours)</option>
+                <option value="Rs. 12000 - 14000 (3-4 hours)">Rs. 12000 - 14000 (3-4 hours)</option>
+                <option value="Rs. 14000 - 16000 (5-6 hours)">Rs. 14000 - 16000 (5-6 hours)</option>
+                <option value="Rs. 18000 - 20000 (8-9 hours)">Rs. 18000 - 20000 (8-9 hours)</option>
+                <option value="Rs. 22000 - 24000 (10-11 hours)">Rs. 22000 - 24000 (10-11 hours)</option>
+                <option value="Rs. 25000 - 28000 (Live-in)(Food to be provided by the client)">Rs. 25000 - 28000 (Live-in)(Food to be provided by the client)</option>
             </select>
         </div>
-
+        
+        <!-- Comment or Remark -->
         <div class="form-group mb-3">
-            <label style="font-weight: 600; margin-bottom: 5px; font-size: 14px; display: block;">How did you hear about us?</label>
-            <input type="text" name="referrer" class="form-control" placeholder="Google, Friends, Social Media, etc." style="height: 45px; border-radius: 6px; font-size: 14px; border: 1px solid #ced4da; width: 100%; padding: 8px 12px;">
+            <label style="font-weight: 600; margin-bottom: 5px; font-size: 13px; display: block; color: #222;">Comment or Remark</label>
+            <textarea name="message" class="form-control" rows="3" placeholder="Need a maid for babysitting, cooking, cleaning, or elderly care?" style="border-radius: 6px; font-size: 13px; border: 1px solid #ced4da; width: 100%; padding: 8px 12px; background: #fff;"></textarea>
         </div>
         
-        <div class="form-group mb-3">
-            <label style="font-weight: 600; margin-bottom: 5px; font-size: 14px; display: block;">Comment or Remark</label>
-            <textarea name="message" class="form-control" rows="3" placeholder="Need a maid for babysitting, cooking, cleaning, or elderly care?" style="border-radius: 6px; font-size: 14px; border: 1px solid #ced4da; width: 100%; padding: 8px 12px;"></textarea>
-        </div>
-        
-        <div class="form-group mb-3" style="display: flex; align-items: flex-start; gap: 8px;">
-            <input type="checkbox" name="premium_agreement" id="premiumAgreementCheckEmbed" required style="margin-top: 4px;">
-            <label for="premiumAgreementCheckEmbed" style="font-size: 12px; color: #555; line-height: 1.4; margin-bottom: 0; cursor: pointer;">
+        <!-- Agreements -->
+        <div class="form-group mb-2" style="display: flex; align-items: flex-start; gap: 8px;">
+            <input type="checkbox" name="premium_agreement" id="premiumAgreement_<?php echo $form_uniq; ?>" required style="margin-top: 3px;">
+            <label for="premiumAgreement_<?php echo $form_uniq; ?>" style="font-size: 11px; color: #555; line-height: 1.35; margin-bottom: 0; cursor: pointer;">
                 I understand that I have to pay a premium to Maid It Easy for providing domestic aid services with replacement support. *
             </label>
         </div>
         
-        <div class="form-group mb-4" style="display: flex; align-items: flex-start; gap: 8px;">
-            <input type="checkbox" name="terms_agreement" id="termsAgreementCheckEmbed" required style="margin-top: 4px;">
-            <label for="termsAgreementCheckEmbed" style="font-size: 12px; color: #555; line-height: 1.4; margin-bottom: 0; cursor: pointer;">
+        <div class="form-group mb-3" style="display: flex; align-items: flex-start; gap: 8px;">
+            <input type="checkbox" name="terms_agreement" id="termsAgreement_<?php echo $form_uniq; ?>" required style="margin-top: 3px;">
+            <label for="termsAgreement_<?php echo $form_uniq; ?>" style="font-size: 11px; color: #555; line-height: 1.35; margin-bottom: 0; cursor: pointer;">
                 Accepting <a href="<?php echo $root_prefix; ?>pages/terms-and-conditions.php" target="_blank" style="color: #ff890c; text-decoration: underline;">Terms & Conditions</a> *
             </label>
         </div>
@@ -119,9 +119,20 @@ if ($script_name == 'maid-service.php') {
         <input type="hidden" name="utm_campaign" class="utm_campaign">
         <input type="hidden" name="utm_account" class="utm_account">
         <input type="hidden" name="utm_source" class="utm_source">
+        <input type="hidden" name="utm_medium" class="utm_medium">
         <input type="hidden" name="gclid" class="gclid">
         <input type="hidden" name="referrer" class="referrer_field">
 
-        <button type="submit" class="btn" style="width: 100%; height: 50px; background-image: linear-gradient(to right, #ffd10c 0%, #ff890c 51%, #ffd10c 100%); background-size: 200% auto; border: none; border-radius: 6px; color: #0e0035; font-weight: bold; font-size: 16px; transition: 0.5s;">SUBMIT BOOKING</button>
+        <!-- Submit Button -->
+        <button type="submit" class="btn" style="width: 100%; height: 46px; background-image: linear-gradient(to right, #ffd10c 0%, #ff890c 51%, #ffd10c 100%); background-size: 200% auto; border: none; border-radius: 6px; color: #0e0035; font-weight: 800; font-size: 15px; transition: 0.5s; cursor: pointer; text-transform: uppercase;">
+            SUBMIT BOOKING
+        </button>
+
+        <?php if (!empty($SITE_PHONE_RAW)): ?>
+        <div style="text-align: center; margin: 6px 0; font-size: 11px; font-weight: bold; color: #888;">OR</div>
+        <a href="tel:<?php echo $SITE_PHONE_RAW; ?>" style="display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; background: #007bff; color: #fff; border-radius: 6px; font-size: 13px; font-weight: bold; text-decoration: none; height: 40px; transition: 0.3s;">
+            <i class="fas fa-phone-alt"></i> Call Us for Better Understanding 24/7
+        </a>
+        <?php endif; ?>
     </form>
 </div>

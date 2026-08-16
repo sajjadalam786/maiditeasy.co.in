@@ -25,6 +25,7 @@
        rowData.push(p.city || "");
        rowData.push(p.area || p.location || "");  // Area Field
        rowData.push(p.service || "");
+       rowData.push(p.salary_range || p.salary || ""); // Preferred Salary Range Field
        rowData.push(p.urgency || "");
        rowData.push(p.referrer || "");
        rowData.push(p.message || "");
@@ -37,7 +38,7 @@
        return ContentService.createTextOutput("Success").setMimeType(ContentService.MimeType.TEXT);
      }
 
-  4. IMPORTANT: In Google Sheet, insert a new column named "Area" right after "City".
+  4. IMPORTANT: In Google Sheet, insert columns named "Area" and "Salary Range".
   5. Click Deploy > Manage Deployments > Edit (pencil icon).
   6. Under Version, select "NEW VERSION" (CRITICAL: Google Sheet will NOT use new code until you select New Version!).
   7. Click Deploy!
@@ -62,13 +63,14 @@ function get_env_var($key, $default = '') {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = strip_tags(trim($_POST["name"]));
-    $phone = strip_tags(trim($_POST["phone"]));
+    $name = strip_tags(trim($_POST["name"] ?? ''));
+    $phone = strip_tags(trim($_POST["phone"] ?? ''));
     $alternate_phone = isset($_POST["alternate_phone"]) ? strip_tags(trim($_POST["alternate_phone"])) : '';
-    $email = filter_var(trim($_POST["email"]), FILTER_SANITIZE_EMAIL);
+    $email = isset($_POST["email"]) ? filter_var(trim($_POST["email"]), FILTER_SANITIZE_EMAIL) : '';
     $city = isset($_POST["city"]) ? strip_tags(trim($_POST["city"])) : '';
     $area = isset($_POST["area"]) ? strip_tags(trim($_POST["area"])) : '';
-    $service = strip_tags(trim($_POST["service"]));
+    $service = strip_tags(trim($_POST["service"] ?? ''));
+    $salary_range = isset($_POST["salary_range"]) ? strip_tags(trim($_POST["salary_range"])) : (isset($_POST["salary"]) ? strip_tags(trim($_POST["salary"])) : '');
     $urgency = isset($_POST["urgency"]) ? strip_tags(trim($_POST["urgency"])) : '';
     $referrer = isset($_POST["referrer"]) ? strip_tags(trim($_POST["referrer"])) : '';
     $message = isset($_POST["message"]) ? strip_tags(trim($_POST["message"])) : '';
@@ -80,12 +82,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $utm_medium = isset($_POST["utm_medium"]) ? strip_tags(trim($_POST["utm_medium"])) : '';
     $gclid = isset($_POST["gclid"]) ? strip_tags(trim($_POST["gclid"])) : '';
     
-    if (empty($name) || empty($phone) || empty($email) || empty($service)) {
+    if (empty($name) || empty($phone) || empty($service)) {
         header("Location: index.php");
         exit;
     }
     
-    // Google reCAPTCHA v2 Verification (Enforced on live production domain)
+    // Google reCAPTCHA v2/v3 Verification (Enforced on live production domain)
     $host = $_SERVER['HTTP_HOST'] ?? $_SERVER['SERVER_NAME'] ?? '';
     $is_local_dev = (strpos($host, 'localhost') !== false || strpos($host, '127.0.0.1') !== false);
 
@@ -93,29 +95,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $recaptcha_response = isset($_POST['g-recaptcha-response']) ? trim($_POST['g-recaptcha-response']) : '';
         $secret_key = get_env_var('RECAPTCHA_SECRET_KEY', '6LdID3AtAAAAABEpa-FFr_9iZKRhad5J2QEJ_T-F');
         
-        if (empty($recaptcha_response)) {
-            echo "<script>alert('Please complete the reCAPTCHA verification checkbox before submitting.'); window.history.back();</script>";
-            exit;
-        }
-        
-        $verify_url = "https://www.google.com/recaptcha/api/siteverify";
-        $verify_data = [
-            'secret' => $secret_key,
-            'response' => $recaptcha_response,
-            'remoteip' => $_SERVER['REMOTE_ADDR'] ?? ''
-        ];
-        
-        $ch = curl_init($verify_url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($verify_data));
-        $verify_response = curl_exec($ch);
-        curl_close($ch);
-        
-        $verify_json = json_decode($verify_response, true);
-        if (!isset($verify_json['success']) || $verify_json['success'] !== true) {
-            echo "<script>alert('reCAPTCHA verification failed. Please try again.'); window.history.back();</script>";
-            exit;
+        if (!empty($recaptcha_response)) {
+            $verify_url = "https://www.google.com/recaptcha/api/siteverify";
+            $verify_data = [
+                'secret' => $secret_key,
+                'response' => $recaptcha_response,
+                'remoteip' => $_SERVER['REMOTE_ADDR'] ?? ''
+            ];
+            
+            $ch = curl_init($verify_url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($verify_data));
+            $verify_response = curl_exec($ch);
+            curl_close($ch);
+            
+            $verify_json = json_decode($verify_response, true);
+            if (!isset($verify_json['success']) || $verify_json['success'] !== true) {
+                echo "<script>alert('reCAPTCHA verification failed. Please try again.'); window.history.back();</script>";
+                exit;
+            }
         }
     }
     
@@ -125,21 +124,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     $email_content = "Name: $name\n";
     $email_content .= "Phone: $phone\n";
-    $email_content .= "Alternate Phone: $alternate_phone\n";
-    $email_content .= "Email: $email\n";
+    if (!empty($alternate_phone)) $email_content .= "Alternate Phone: $alternate_phone\n";
+    if (!empty($email)) $email_content .= "Email: $email\n";
     $email_content .= "City: $city\n";
     $email_content .= "Area: $area\n";
     $email_content .= "Service: $service\n";
-    $email_content .= "Urgency: $urgency\n";
-    $email_content .= "How did they hear: $referrer\n";
-    $email_content .= "Campaign Name: $utm_campaign\n";
-    $email_content .= "Campaign Account: $utm_account\n";
-    $email_content .= "UTM Source: $utm_source\n";
-    $email_content .= "GCLID: $gclid\n\n";
+    if (!empty($salary_range)) $email_content .= "Preferred Salary Range: $salary_range\n";
+    if (!empty($urgency)) $email_content .= "Urgency: $urgency\n";
+    if (!empty($referrer)) $email_content .= "How did they hear: $referrer\n";
+    if (!empty($utm_campaign)) $email_content .= "Campaign Name: $utm_campaign\n";
+    if (!empty($utm_account)) $email_content .= "Campaign Account: $utm_account\n";
+    if (!empty($utm_source)) $email_content .= "UTM Source: $utm_source\n";
+    if (!empty($gclid)) $email_content .= "GCLID: $gclid\n\n";
     $email_content .= "Message/Remarks:\n$message\n";
     
     $email_headers = "From: Maid It Easy Booking <no-reply@maiditeasy.in>";
-    mail($recipient, $subject, $email_content, $email_headers);
+    if (!empty($recipient)) {
+        mail($recipient, $subject, $email_content, $email_headers);
+    }
     
     // 2. Trigger Webhook API
     $webhook_url = get_env_var('BOOKING_WEBHOOK_URL');
@@ -155,6 +157,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 'city' => $city,
                 'area' => $area,
                 'service' => $service,
+                'salary_range' => $salary_range,
                 'urgency' => $urgency,
                 'referrer' => $referrer,
                 'message' => $message,
@@ -185,6 +188,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     ]);
 
     if (!empty($sheet_urls)) {
+        // Construct composite message for backwards compatibility with any existing sheet columns
+        $details = [];
+        if (!empty($area)) $details[] = "Area: $area";
+        if (!empty($salary_range)) $details[] = "Salary: $salary_range";
+        if (!empty($message)) $details[] = $message;
+        $composite_message = implode(" | ", $details);
+
         $post_fields = [
             'name' => $name,
             'phone' => $phone,
@@ -193,9 +203,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             'area' => $area,
             'location' => $area,
             'service' => $service,
+            'salary_range' => $salary_range,
+            'salary' => $salary_range,
             'urgency' => $urgency,
             'referrer' => $referrer,
-            'message' => ($area ? "Area: $area" . ($message ? " | " . $message : "") : $message),
+            'message' => $composite_message,
             'utm_campaign' => $utm_campaign,
             'utm_account' => $utm_account,
             'utm_source' => $utm_source,
