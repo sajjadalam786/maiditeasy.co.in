@@ -107,6 +107,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($verify_data));
+            curl_setopt($ch, CURLOPT_TIMEOUT, 3);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2);
             $verify_response = curl_exec($ch);
             curl_close($ch);
             
@@ -118,6 +120,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
     
+    // Send immediate 302 Redirect to browser so Thank You page loads instantly (< 50ms)
+    // Background execution continues for email, webhook, and Google Sheets
+    if (function_exists('fastcgi_finish_request')) {
+        header("Location: pages/book-now-thank-you.php");
+        fastcgi_finish_request();
+    } else {
+        ignore_user_abort(true);
+        set_time_limit(60);
+        if (ob_get_level() == 0) ob_start();
+        header("Location: pages/book-now-thank-you.php");
+        header("Connection: close");
+        header("Content-Length: " . ob_get_length());
+        @ob_end_flush();
+        @ob_flush();
+        @flush();
+    }
+
     // 1. Send Email Notification
     $recipient = get_env_var('RECIPIENT_EMAIL');
     $subject = "New Maid It Easy Booking Request from $name";
@@ -140,7 +159,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     $email_headers = "From: Maid It Easy Booking <no-reply@maiditeasy.in>";
     if (!empty($recipient)) {
-        mail($recipient, $subject, $email_content, $email_headers);
+        @mail($recipient, $subject, $email_content, $email_headers);
     }
     
     // 2. Trigger Webhook API
@@ -173,6 +192,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 4);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2);
+        curl_setopt($ch, CURLOPT_NOSIGNAL, 1);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             'Content-Type: application/json',
             'Content-Length: ' . strlen($payload)
@@ -223,13 +245,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 curl_setopt($ch, CURLOPT_POSTREDIR, CURL_REDIR_POST_ALL);
                 curl_setopt($ch, CURLOPT_POST, true);
                 curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post_fields));
+                curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+                curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2);
+                curl_setopt($ch, CURLOPT_NOSIGNAL, 1);
                 curl_exec($ch);
                 curl_close($ch);
             }
         }
     }
     
-    header("Location: pages/book-now-thank-you.php");
+    // Safety exit if script wasn't early terminated by fastcgi_finish_request
+    if (!headers_sent()) {
+        header("Location: pages/book-now-thank-you.php");
+    }
     exit;
 } else {
     header("Location: index.php");

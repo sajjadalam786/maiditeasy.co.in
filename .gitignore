@@ -3,13 +3,7 @@
 Thumbs.db
 desktop.ini
 
-# Environment variables & secrets
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-*.env
+
 
 # IDEs and editors
 .idea/
@@ -31,8 +25,7 @@ yarn-error.log*
 # Dependencies
 node_modules/
 vendor/
-composer.lock
-package-lock.json
+
 
 # Temporary directories
 tmp/
