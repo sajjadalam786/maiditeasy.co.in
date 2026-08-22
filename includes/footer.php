@@ -258,14 +258,18 @@
             }
         });
 
-        // --- 3. Form Submission Anti-Duplicate Blocker & Loading State ---
+        // --- 3. Instant Form Submission & Immediate Redirect Handler ---
         $(document).on("submit", "form", function(e){
             var $form = $(this);
+            var actionUrl = $form.attr("action") || "";
+            
+            // Check if this is a lead booking or job application form
+            var isLeadForm = actionUrl.indexOf("submit-booking.php") !== -1 || actionUrl.indexOf("submit-application.php") !== -1;
             
             // Ensure campaign params are injected
             injectCampaignFields($form);
 
-            if ($form.hasClass("lead-short-form")) {
+            if ($form.hasClass("lead-short-form") || isLeadForm) {
                 sessionStorage.setItem("popupFilled", "true");
             }
 
@@ -281,13 +285,39 @@
             $form.data("isSubmitting", true);
             $btn.prop("disabled", true).addClass("disabled");
             
-            var originalText = $btn.html() || $btn.val();
-            $btn.data("originalText", originalText);
-            
             if ($btn.is("button")) {
                 $btn.html('<i class="fas fa-spinner fa-spin" style="margin-right: 6px;"></i> Submitting...');
             } else {
                 $btn.val('Submitting...');
+            }
+
+            if (isLeadForm) {
+                e.preventDefault(); // Take over submission for instant redirect
+                
+                var rootPrefix = '<?php echo $root_prefix; ?>';
+                var thankYouUrl = rootPrefix + 'pages/book-now-thank-you.php';
+                var formData = new FormData(this);
+
+                // Use Fetch API with keepalive for guaranteed background execution
+                try {
+                    fetch(actionUrl, {
+                        method: 'POST',
+                        body: formData,
+                        keepalive: true,
+                        credentials: 'same-origin'
+                    }).catch(function(){});
+                } catch(err) {
+                    if (navigator.sendBeacon) {
+                        navigator.sendBeacon(actionUrl, formData);
+                    }
+                }
+
+                // Redirect immediately (< 100ms) without waiting for server webhooks / Google Sheets
+                setTimeout(function(){
+                    window.location.href = thankYouUrl;
+                }, 80);
+
+                return false;
             }
         });
     });
